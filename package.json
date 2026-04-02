@@ -1,0 +1,17 @@
+{
+  "name": "vidjutsu-openapi",
+  "version": "2026.4.2",
+  "private": false,
+  "description": "OpenAPI specification for the VidJutsu API",
+  "scripts": {
+    "build": "tsp compile spec/ && cp tsp-output/@typespec/openapi3/openapi/spec.json openapi/spec.json",
+    "watch": "tsp compile spec/ --watch"
+  },
+  "dependencies": {
+    "@typespec/compiler": "^0.62.0",
+    "@typespec/http": "^0.62.0",
+    "@typespec/openapi": "^0.62.0",
+    "@typespec/openapi3": "^0.62.0",
+    "@typespec/rest": "^0.62.0"
+  }
+}
