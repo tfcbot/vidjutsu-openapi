@@ -17,6 +17,7 @@ import "./operations/analytics.tsp";
 import "./operations/estimate.tsp";
 import "./operations/upload.tsp";
 import "./operations/scrape-analyze.tsp";
+import "./operations/campaigns.tsp";
 
 using Http;
 using OpenAPI;
