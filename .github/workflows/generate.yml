@@ -1,6 +1,7 @@
 name: Generate OpenAPI Spec
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'spec/**'
