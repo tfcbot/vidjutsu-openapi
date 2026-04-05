@@ -5,6 +5,7 @@ namespace VidJutsu;
 
 model UploadResponse {
   id: string;
+  assetId: string;
   url: string;
   clientId: string;
 }
