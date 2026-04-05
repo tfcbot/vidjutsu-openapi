@@ -352,6 +352,149 @@
             }
           }
         }
+      },
+      "get": {
+        "operationId": "getAnalysisStatus",
+        "summary": "Poll breakdown analysis status",
+        "description": "Get the status and result of an async breakdown analysis. Returns the full result when status is completed or embedding.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Analysis ID returned from POST /v1/analyze with mode=breakdown (e.g. va_xxx)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analysis status and result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "analyzing",
+                        "embedding",
+                        "completed",
+                        "failed"
+                      ]
+                    },
+                    "videoUrl": {
+                      "type": "string"
+                    },
+                    "sourceType": {
+                      "type": "string",
+                      "enum": [
+                        "direct",
+                        "social"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "number"
+                    },
+                    "completedAt": {
+                      "type": "number"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "summary": {
+                          "type": "string"
+                        },
+                        "hook": {
+                          "type": "string"
+                        },
+                        "durationSeconds": {
+                          "type": "number"
+                        },
+                        "keyframes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "timestamp": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "visual": {
+                                "type": "string"
+                              },
+                              "audio": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "whyItPerformed": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "attributesToCopy": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "hooksToTest": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "errorMessage": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing id parameter"
+          },
+          "401": {
+            "description": "Invalid or missing API key"
+          },
+          "404": {
+            "description": "Analysis not found"
+          }
+        },
+        "tags": [
+          "Analyze"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
       }
     },
     "/v1/api_keys": {
@@ -1087,6 +1230,104 @@
             }
           }
         }
+      }
+    },
+    "/v1/campaigns": {
+      "get": {
+        "operationId": "listCampaigns",
+        "summary": "List campaigns",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "createCampaign",
+        "summary": "Create campaign",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/campaigns/cancel": {
+      "post": {
+        "operationId": "cancelCampaign",
+        "summary": "Cancel campaign",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/campaigns/estimate": {
+      "post": {
+        "operationId": "estimateCampaign",
+        "summary": "Estimate campaign cost",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/v1/campaigns/execute": {
+      "post": {
+        "operationId": "executeCampaign",
+        "summary": "Execute campaign",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded."
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
       }
     }
   },
