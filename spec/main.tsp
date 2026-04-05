@@ -6,8 +6,10 @@ import "@typespec/rest";
 import "./models/common.tsp";
 import "./models/accounts.tsp";
 import "./models/posts.tsp";
+import "./models/assets.tsp";
 import "./models/analytics.tsp";
 
+import "./operations/assets.tsp";
 import "./operations/auth.tsp";
 import "./operations/accounts.tsp";
 import "./operations/posts.tsp";
