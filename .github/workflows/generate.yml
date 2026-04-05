@@ -42,19 +42,19 @@ jobs:
           fi
 
       - name: Trigger docs spec sync
-        if: steps.commit.outputs.changed == 'true' && secrets.DOWNSTREAM_PAT != ''
+        if: steps.commit.outputs.changed == 'true' && env.GH_TOKEN != ''
         run: gh workflow run sync-spec.yml --repo Blurware/vidjutsu-docs
         env:
           GH_TOKEN: ${{ secrets.DOWNSTREAM_PAT }}
 
       - name: Trigger vidjutsu spec validation
-        if: steps.commit.outputs.changed == 'true' && secrets.DOWNSTREAM_PAT != ''
+        if: steps.commit.outputs.changed == 'true' && env.GH_TOKEN != ''
         run: gh workflow run preview.yml --repo tfcbot/vidjutsu
         env:
           GH_TOKEN: ${{ secrets.DOWNSTREAM_PAT }}
 
       - name: Trigger CLI spec sync
-        if: steps.commit.outputs.changed == 'true' && secrets.DOWNSTREAM_PAT != ''
+        if: steps.commit.outputs.changed == 'true' && env.GH_TOKEN != ''
         run: gh workflow run sync-spec.yml --repo tfcbot/vidjutsu-cli
         env:
           GH_TOKEN: ${{ secrets.DOWNSTREAM_PAT }}
