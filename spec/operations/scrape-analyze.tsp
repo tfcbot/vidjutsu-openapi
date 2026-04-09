@@ -27,18 +27,3 @@ interface Analyze {
   @post @operationId("analyzeMedia") @summary("Analyze media")
   analyze(@body body: AnalyzeRequest): AnalyzeResponse;
 }
-
-// --- Scrape ---
-
-model ScrapeRequest {
-  platform: "instagram";
-  action: string;
-  params?: Record<unknown>;
-}
-
-@route("/v1/scrape")
-@tag("Scrape")
-interface Scrape {
-  @post @operationId("scrapeContent") @summary("Scrape creator data")
-  scrape(@body body: ScrapeRequest): unknown;
-}

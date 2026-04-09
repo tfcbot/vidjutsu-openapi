@@ -22,13 +22,3 @@ interface Accounts {
   @delete @operationId("deleteAccount") @summary("Delete account")
   delete(@query id: string): AccountDeleteResponse;
 }
-
-@route("/v1/accounts/provision")
-@tag("Accounts")
-interface AccountProvision {
-  @post @operationId("provisionAccount") @summary("Provision draft account")
-  provision(@body body: AccountProvisionRequest): {
-    @statusCode _: 202;
-    @body body: AccountProvisionResponse;
-  };
-}
