@@ -33,23 +33,23 @@
       "name": "Upload"
     },
     {
-      "name": "Analyze"
+      "name": "Watch"
     },
     {
-      "name": "Critic"
+      "name": "Extract"
     },
     {
-      "name": "Breakdown"
+      "name": "Transcribe"
     },
     {
-      "name": "Score"
+      "name": "Check"
     }
   ],
   "paths": {
     "/v1/accounts": {
       "post": {
         "operationId": "createAccount",
-        "summary": "Create draft account",
+        "summary": "Create account",
         "parameters": [],
         "responses": {
           "201": {
@@ -79,7 +79,7 @@
       },
       "put": {
         "operationId": "updateAccount",
-        "summary": "Update draft account",
+        "summary": "Update account",
         "parameters": [
           {
             "name": "id",
@@ -183,68 +183,6 @@
         },
         "tags": [
           "Accounts"
-        ]
-      }
-    },
-    "/v1/analyze": {
-      "post": {
-        "operationId": "analyzeMedia",
-        "summary": "Analyze media",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AnalyzeResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Analyze"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AnalyzeRequest"
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "operationId": "getAnalysisStatus",
-        "summary": "Poll breakdown analysis status",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AnalysisStatusResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Analyze"
         ]
       }
     },
@@ -537,10 +475,11 @@
         ]
       }
     },
-    "/v1/breakdown": {
+    "/v1/check": {
       "post": {
-        "operationId": "createBreakdown",
-        "summary": "Create media breakdown",
+        "operationId": "checkSpec",
+        "summary": "Check spec",
+        "description": "Validate a VidLang spec against built-in rules and optional custom rules. 5 credits.",
         "parameters": [],
         "responses": {
           "200": {
@@ -548,61 +487,32 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BreakdownCreateResponse"
+                  "$ref": "#/components/schemas/CheckResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Breakdown"
+          "Check"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BreakdownRequest"
+                "$ref": "#/components/schemas/CheckRequest"
               }
             }
           }
         }
-      },
-      "get": {
-        "operationId": "getBreakdown",
-        "summary": "Get breakdown result",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BreakdownGetResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Breakdown"
-        ]
       }
     },
-    "/v1/critic": {
-      "post": {
-        "operationId": "criticMedia",
-        "summary": "Critic media quality",
+    "/v1/check/rules": {
+      "get": {
+        "operationId": "getCheckRules",
+        "summary": "Get check rules",
+        "description": "Load per-client custom rules. 0 credits.",
         "parameters": [],
         "responses": {
           "200": {
@@ -610,21 +520,75 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CriticResponse"
+                  "$ref": "#/components/schemas/CheckRulesResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Critic"
+          "Check"
+        ]
+      },
+      "put": {
+        "operationId": "updateCheckRules",
+        "summary": "Update check rules",
+        "description": "Save per-client custom rules. 0 credits.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckRulesResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Check"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriticRequest"
+                "$ref": "#/components/schemas/CheckRulesUpdateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/extract": {
+      "post": {
+        "operationId": "extractMedia",
+        "summary": "Extract from media",
+        "description": "Pull frames, audio, and metadata from a video via server-side ffmpeg. 5 credits.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Extract"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtractRequest"
               }
             }
           }
@@ -656,7 +620,7 @@
     "/v1/posts": {
       "post": {
         "operationId": "createPost",
-        "summary": "Create draft post",
+        "summary": "Create post",
         "parameters": [],
         "responses": {
           "201": {
@@ -686,7 +650,7 @@
       },
       "put": {
         "operationId": "updatePost",
-        "summary": "Update draft post",
+        "summary": "Update post",
         "parameters": [
           {
             "name": "id",
@@ -773,7 +737,7 @@
       },
       "delete": {
         "operationId": "deletePost",
-        "summary": "Cancel post",
+        "summary": "Delete post",
         "parameters": [
           {
             "name": "id",
@@ -824,38 +788,6 @@
         ]
       }
     },
-    "/v1/score": {
-      "post": {
-        "operationId": "scoreMedia",
-        "summary": "Score media content",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ScoreResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Score"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ScoreRequest"
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/subscriptions": {
       "post": {
         "operationId": "createSubscription",
@@ -880,6 +812,39 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/SubscriptionCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transcribe": {
+      "post": {
+        "operationId": "transcribeMedia",
+        "summary": "Transcribe media",
+        "description": "Speech-to-text with word-level timing via ElevenLabs. 10 credits.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranscribeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Transcribe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranscribeRequest"
               }
             }
           }
@@ -945,6 +910,39 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/UploadUrlRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/watch": {
+      "post": {
+        "operationId": "watchMedia",
+        "summary": "Watch media",
+        "description": "Gemini watches a video or image and answers your freeform prompt. Returns structured JSON. 10 credits.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WatchResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Watch"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WatchRequest"
               }
             }
           }
@@ -1159,197 +1157,6 @@
             "type": "boolean",
             "enum": [
               true
-            ]
-          }
-        }
-      },
-      "AnalysisKeyframe": {
-        "type": "object",
-        "required": [
-          "timestamp",
-          "type",
-          "description"
-        ],
-        "properties": {
-          "timestamp": {
-            "type": "number",
-            "format": "double"
-          },
-          "type": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "visual": {
-            "type": "string"
-          },
-          "audio": {
-            "type": "string"
-          },
-          "text": {
-            "type": "string"
-          }
-        }
-      },
-      "AnalysisResult": {
-        "type": "object",
-        "required": [
-          "summary",
-          "hook",
-          "durationSeconds",
-          "keyframes",
-          "tags",
-          "whyItPerformed",
-          "attributesToCopy",
-          "hooksToTest"
-        ],
-        "properties": {
-          "summary": {
-            "type": "string"
-          },
-          "hook": {
-            "type": "string"
-          },
-          "durationSeconds": {
-            "type": "number",
-            "format": "double"
-          },
-          "keyframes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AnalysisKeyframe"
-            }
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "whyItPerformed": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "attributesToCopy": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "hooksToTest": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "AnalysisStatusResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "status",
-          "videoUrl",
-          "sourceType",
-          "createdAt"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "analyzing",
-              "embedding",
-              "completed",
-              "failed"
-            ]
-          },
-          "videoUrl": {
-            "type": "string"
-          },
-          "sourceType": {
-            "type": "string",
-            "enum": [
-              "direct",
-              "social"
-            ]
-          },
-          "createdAt": {
-            "type": "number",
-            "format": "double"
-          },
-          "completedAt": {
-            "type": "number",
-            "format": "double"
-          },
-          "result": {
-            "$ref": "#/components/schemas/AnalysisResult"
-          },
-          "errorMessage": {
-            "type": "string"
-          }
-        }
-      },
-      "AnalyzeRequest": {
-        "type": "object",
-        "required": [
-          "mode",
-          "mediaUrl"
-        ],
-        "properties": {
-          "mode": {
-            "type": "string",
-            "enum": [
-              "critic",
-              "verify",
-              "breakdown"
-            ]
-          },
-          "mediaUrl": {
-            "type": "string"
-          },
-          "mediaType": {
-            "type": "string"
-          },
-          "context": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "keyframeDescriptions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "prompt": {
-            "type": "string"
-          }
-        }
-      },
-      "AnalyzeResponse": {
-        "type": "object",
-        "required": [
-          "creditsCharged"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "creditsCharged": {
-            "type": "number",
-            "enum": [
-              10
             ]
           }
         }
@@ -1674,59 +1481,95 @@
           }
         }
       },
-      "BreakdownCreateResponse": {
+      "CheckRequest": {
         "type": "object",
         "required": [
-          "id",
-          "status"
+          "spec"
         ],
         "properties": {
-          "id": {
-            "type": "string"
+          "spec": {
+            "type": "object",
+            "additionalProperties": {},
+            "description": "VidLang spec JSON to validate"
           },
-          "status": {
-            "type": "string",
-            "enum": [
-              "pending"
-            ]
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Optional custom rules as plain text strings. Evaluated by AI"
           }
         }
       },
-      "BreakdownGetResponse": {
+      "CheckResponse": {
         "type": "object",
         "required": [
-          "id",
-          "status"
+          "passed",
+          "results"
         ],
         "properties": {
-          "id": {
-            "type": "string"
+          "passed": {
+            "type": "boolean"
           },
-          "status": {
-            "type": "string"
-          },
-          "result": {}
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CheckResult"
+            }
+          }
         }
       },
-      "BreakdownRequest": {
+      "CheckResult": {
         "type": "object",
         "required": [
-          "mediaUrl",
-          "mediaType"
+          "rule",
+          "passed",
+          "message",
+          "severity"
         ],
         "properties": {
-          "mediaUrl": {
+          "rule": {
             "type": "string"
           },
-          "mediaType": {
-            "type": "string",
-            "enum": [
-              "video",
-              "image"
-            ]
+          "passed": {
+            "type": "boolean"
           },
-          "prompt": {
+          "message": {
             "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          }
+        }
+      },
+      "CheckRulesResponse": {
+        "type": "object",
+        "required": [
+          "rules"
+        ],
+        "properties": {
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CheckRulesUpdateRequest": {
+        "type": "object",
+        "required": [
+          "rules"
+        ],
+        "properties": {
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1735,72 +1578,140 @@
         "required": [
           "accounts.create",
           "posts.create",
-          "analyze"
+          "watch",
+          "extract",
+          "transcribe",
+          "check"
         ],
         "properties": {
           "accounts.create": {
             "type": "integer",
             "format": "int32",
-            "description": "Create draft account (free)"
+            "description": "Create account (free)"
           },
           "posts.create": {
             "type": "integer",
             "format": "int32",
-            "description": "Create draft post (free)"
+            "description": "Create post (free)"
           },
-          "analyze": {
+          "watch": {
             "type": "integer",
             "format": "int32",
-            "description": "Analyze media (critic/verify/breakdown)"
+            "description": "Watch media via Gemini"
+          },
+          "extract": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Extract frames/audio/metadata"
+          },
+          "transcribe": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Transcribe speech to text"
+          },
+          "check": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Check spec against rules"
           }
         }
       },
-      "CriticRequest": {
+      "ExtractAudio": {
         "type": "object",
         "required": [
-          "mediaUrl",
-          "mediaType"
+          "url",
+          "duration"
+        ],
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExtractFrame": {
+        "type": "object",
+        "required": [
+          "index",
+          "url"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "ExtractMetadata": {
+        "type": "object",
+        "required": [
+          "width",
+          "height",
+          "fps",
+          "duration"
+        ],
+        "properties": {
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fps": {
+            "type": "number",
+            "format": "double"
+          },
+          "duration": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExtractRequest": {
+        "type": "object",
+        "required": [
+          "mediaUrl"
         ],
         "properties": {
           "mediaUrl": {
-            "type": "string"
-          },
-          "mediaType": {
             "type": "string",
-            "enum": [
-              "video",
-              "image"
-            ]
+            "description": "URL of the video to extract from"
           },
-          "context": {
-            "type": "string"
+          "frames": {
+            "description": "Frame indices to extract. Use [0, 75, 150] for specific frames, 'auto' for 3 evenly spaced, or 'last' for the final frame"
+          },
+          "audio": {
+            "type": "boolean",
+            "description": "Extract audio track as WAV"
+          },
+          "metadata": {
+            "type": "boolean",
+            "description": "Return video metadata (width, height, fps, duration). Defaults to true"
           }
         }
       },
-      "CriticResponse": {
+      "ExtractResponse": {
         "type": "object",
-        "required": [
-          "score",
-          "issues",
-          "verdict"
-        ],
         "properties": {
-          "score": {
-            "type": "number",
-            "format": "float"
-          },
-          "issues": {
+          "frames": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/ExtractFrame"
             }
           },
-          "verdict": {
-            "type": "string",
-            "enum": [
-              "pass",
-              "fail"
-            ]
+          "audio": {
+            "$ref": "#/components/schemas/ExtractAudio"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ExtractMetadata"
           }
         }
       },
@@ -2034,57 +1945,6 @@
           }
         }
       },
-      "ScoreRequest": {
-        "type": "object",
-        "required": [
-          "mediaUrl",
-          "mediaType"
-        ],
-        "properties": {
-          "mediaUrl": {
-            "type": "string"
-          },
-          "mediaType": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "niches": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "ScoreResponse": {
-        "type": "object",
-        "required": [
-          "score",
-          "breakdown",
-          "suggestions"
-        ],
-        "properties": {
-          "score": {
-            "type": "number",
-            "format": "float"
-          },
-          "breakdown": {
-            "type": "object",
-            "additionalProperties": {}
-          },
-          "suggestions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
       "SubscriptionCreateRequest": {
         "type": "object",
         "properties": {
@@ -2131,6 +1991,70 @@
           }
         }
       },
+      "TranscribeRequest": {
+        "type": "object",
+        "required": [
+          "mediaUrl"
+        ],
+        "properties": {
+          "mediaUrl": {
+            "type": "string",
+            "description": "URL of the video or audio to transcribe"
+          },
+          "language": {
+            "type": "string",
+            "description": "Language code (e.g. 'en', 'es'). Auto-detected if omitted"
+          }
+        }
+      },
+      "TranscribeResponse": {
+        "type": "object",
+        "required": [
+          "transcript",
+          "words",
+          "language",
+          "duration"
+        ],
+        "properties": {
+          "transcript": {
+            "type": "string"
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TranscribeWord"
+            }
+          },
+          "language": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "TranscribeWord": {
+        "type": "object",
+        "required": [
+          "word",
+          "start",
+          "end"
+        ],
+        "properties": {
+          "word": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "format": "double"
+          },
+          "end": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "UploadResponse": {
         "type": "object",
         "required": [
@@ -2165,6 +2089,36 @@
           },
           "contentType": {
             "type": "string"
+          }
+        }
+      },
+      "WatchRequest": {
+        "type": "object",
+        "required": [
+          "mediaUrl",
+          "prompt"
+        ],
+        "properties": {
+          "mediaUrl": {
+            "type": "string",
+            "description": "URL of the media to analyze"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Freeform prompt — tell Gemini what to look for"
+          }
+        }
+      },
+      "WatchResponse": {
+        "type": "object",
+        "required": [
+          "response"
+        ],
+        "properties": {
+          "response": {
+            "type": "object",
+            "additionalProperties": {},
+            "description": "Structured JSON response from Gemini based on the prompt"
           }
         }
       }
