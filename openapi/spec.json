@@ -43,6 +43,9 @@
     },
     {
       "name": "Scrape"
+    },
+    {
+      "name": "Campaigns"
     }
   ],
   "paths": {
@@ -352,6 +355,36 @@
             }
           }
         }
+      },
+      "get": {
+        "operationId": "getAnalysisStatus",
+        "summary": "Poll breakdown analysis status",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Analyze"
+        ]
       }
     },
     "/v1/api_keys": {
@@ -641,6 +674,157 @@
         "tags": [
           "Balance"
         ]
+      }
+    },
+    "/v1/campaigns": {
+      "get": {
+        "operationId": "listCampaigns",
+        "summary": "List campaigns",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CampaignResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ]
+      },
+      "post": {
+        "operationId": "createCampaign",
+        "summary": "Create campaign",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/campaigns/cancel": {
+      "post": {
+        "operationId": "cancelCampaign",
+        "summary": "Cancel campaign",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignCancelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/campaigns/estimate": {
+      "post": {
+        "operationId": "estimateCampaign",
+        "summary": "Estimate campaign cost",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignEstimateResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignEstimateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/campaigns/execute": {
+      "post": {
+        "operationId": "executeCampaign",
+        "summary": "Execute campaign",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CampaignResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Campaigns"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CampaignExecuteRequest"
+              }
+            }
+          }
+        }
       }
     },
     "/v1/estimate": {
@@ -1388,6 +1572,139 @@
           }
         }
       },
+      "AnalysisKeyframe": {
+        "type": "object",
+        "required": [
+          "timestamp",
+          "type",
+          "description"
+        ],
+        "properties": {
+          "timestamp": {
+            "type": "number",
+            "format": "double"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "visual": {
+            "type": "string"
+          },
+          "audio": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "AnalysisResult": {
+        "type": "object",
+        "required": [
+          "summary",
+          "hook",
+          "durationSeconds",
+          "keyframes",
+          "tags",
+          "whyItPerformed",
+          "attributesToCopy",
+          "hooksToTest"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "hook": {
+            "type": "string"
+          },
+          "durationSeconds": {
+            "type": "number",
+            "format": "double"
+          },
+          "keyframes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalysisKeyframe"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "whyItPerformed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attributesToCopy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hooksToTest": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AnalysisStatusResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "videoUrl",
+          "sourceType",
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "analyzing",
+              "embedding",
+              "completed",
+              "failed"
+            ]
+          },
+          "videoUrl": {
+            "type": "string"
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "social"
+            ]
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "completedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "result": {
+            "$ref": "#/components/schemas/AnalysisResult"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
       "AnalyticsRefreshResponse": {
         "type": "object",
         "required": [
@@ -1790,6 +2107,108 @@
           "amount": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "CampaignCancelRequest": {
+        "type": "object",
+        "required": [
+          "campaignId"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string"
+          }
+        }
+      },
+      "CampaignCreateRequest": {
+        "type": "object",
+        "required": [
+          "accountId",
+          "videoCount"
+        ],
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "videoCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationDays": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CampaignEstimateRequest": {
+        "type": "object",
+        "required": [
+          "accountId",
+          "videoCount"
+        ],
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "videoCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationDays": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CampaignEstimateResponse": {
+        "type": "object",
+        "required": [
+          "estimatedCredits",
+          "breakdown"
+        ],
+        "properties": {
+          "estimatedCredits": {
+            "type": "number",
+            "format": "double"
+          },
+          "breakdown": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "CampaignExecuteRequest": {
+        "type": "object",
+        "required": [
+          "campaignId"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string"
+          }
+        }
+      },
+      "CampaignResponse": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "status",
+          "accountId"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "creditsCharged": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
