@@ -572,7 +572,7 @@
       "post": {
         "operationId": "extractMedia",
         "summary": "Extract from media",
-        "description": "Pull frames, audio, and metadata from a video via server-side ffmpeg. 5 credits.",
+        "description": "Pull frames, audio, and metadata from a video via server-side processing. 5 credits.",
         "parameters": [],
         "responses": {
           "200": {
@@ -977,7 +977,7 @@
       "post": {
         "operationId": "transcribeMedia",
         "summary": "Transcribe media",
-        "description": "Speech-to-text with word-level timing via ElevenLabs. 10 credits.",
+        "description": "Speech-to-text with word-level timing. 10 credits.",
         "parameters": [],
         "responses": {
           "200": {
@@ -1075,7 +1075,7 @@
       "post": {
         "operationId": "watchMedia",
         "summary": "Watch media",
-        "description": "Gemini watches a video or image and answers your freeform prompt. Returns structured JSON. 10 credits.",
+        "description": "AI watches a video or image and answers your freeform prompt. Returns structured JSON. 10 credits.",
         "parameters": [],
         "responses": {
           "200": {
@@ -2414,7 +2414,7 @@
           },
           "prompt": {
             "type": "string",
-            "description": "Freeform prompt — tell Gemini what to look for"
+            "description": "Freeform prompt — tell AI what to look for"
           }
         }
       },
@@ -2427,7 +2427,7 @@
           "response": {
             "type": "object",
             "additionalProperties": {},
-            "description": "Structured JSON response from Gemini based on the prompt"
+            "description": "Structured JSON response from AI based on the prompt"
           }
         }
       }
