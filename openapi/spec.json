@@ -30,22 +30,19 @@
       "name": "Posts"
     },
     {
-      "name": "Analytics"
-    },
-    {
-      "name": "Estimate"
-    },
-    {
       "name": "Upload"
     },
     {
       "name": "Analyze"
     },
     {
-      "name": "Scrape"
+      "name": "Critic"
     },
     {
-      "name": "Campaigns"
+      "name": "Breakdown"
+    },
+    {
+      "name": "Score"
     }
   ],
   "paths": {
@@ -186,142 +183,6 @@
         },
         "tags": [
           "Accounts"
-        ]
-      }
-    },
-    "/v1/accounts/provision": {
-      "post": {
-        "operationId": "provisionAccount",
-        "summary": "Provision draft account",
-        "parameters": [],
-        "responses": {
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccountProvisionResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Accounts"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccountProvisionRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/analytics": {
-      "get": {
-        "operationId": "getAnalytics",
-        "summary": "Get account analytics",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccountAnalytics"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Analytics"
-        ]
-      }
-    },
-    "/v1/analytics/refresh": {
-      "post": {
-        "operationId": "refreshAnalytics",
-        "summary": "Refresh analytics",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AnalyticsRefreshResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Analytics"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "accountId": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "accountId"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/analytics/videos": {
-      "get": {
-        "operationId": "getVideoStats",
-        "summary": "Get video stats",
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VideoStatsResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Analytics"
         ]
       }
     },
@@ -676,10 +537,10 @@
         ]
       }
     },
-    "/v1/campaigns": {
-      "get": {
-        "operationId": "listCampaigns",
-        "summary": "List campaigns",
+    "/v1/breakdown": {
+      "post": {
+        "operationId": "createBreakdown",
+        "summary": "Create media breakdown",
         "parameters": [],
         "responses": {
           "200": {
@@ -687,54 +548,61 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CampaignResponse"
-                  }
+                  "$ref": "#/components/schemas/BreakdownCreateResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Campaigns"
-        ]
+          "Breakdown"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BreakdownRequest"
+              }
+            }
+          }
+        }
       },
-      "post": {
-        "operationId": "createCampaign",
-        "summary": "Create campaign",
-        "parameters": [],
+      "get": {
+        "operationId": "getBreakdown",
+        "summary": "Get breakdown result",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
         "responses": {
           "200": {
             "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CampaignResponse"
+                  "$ref": "#/components/schemas/BreakdownGetResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Campaigns"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignCreateRequest"
-              }
-            }
-          }
-        }
+          "Breakdown"
+        ]
       }
     },
-    "/v1/campaigns/cancel": {
+    "/v1/critic": {
       "post": {
-        "operationId": "cancelCampaign",
-        "summary": "Cancel campaign",
+        "operationId": "criticMedia",
+        "summary": "Critic media quality",
         "parameters": [],
         "responses": {
           "200": {
@@ -742,117 +610,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CampaignResponse"
+                  "$ref": "#/components/schemas/CriticResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Campaigns"
+          "Critic"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CampaignCancelRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/campaigns/estimate": {
-      "post": {
-        "operationId": "estimateCampaign",
-        "summary": "Estimate campaign cost",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignEstimateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Campaigns"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignEstimateRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/campaigns/execute": {
-      "post": {
-        "operationId": "executeCampaign",
-        "summary": "Execute campaign",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CampaignResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Campaigns"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CampaignExecuteRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/estimate": {
-      "post": {
-        "operationId": "estimateCost",
-        "summary": "Estimate cost",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EstimateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Estimate"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EstimateRequest"
+                "$ref": "#/components/schemas/CriticRequest"
               }
             }
           }
@@ -1030,102 +802,6 @@
         ]
       }
     },
-    "/v1/posts/assign": {
-      "post": {
-        "operationId": "assignPost",
-        "summary": "Assign draft post to account",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PostAssignResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Posts"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostAssignRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/posts/duplicate": {
-      "post": {
-        "operationId": "duplicatePost",
-        "summary": "Duplicate a post",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "The request has succeeded and a new resource has been created as a result.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PostDuplicateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Posts"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostDuplicateRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/posts/schedule": {
-      "post": {
-        "operationId": "schedulePost",
-        "summary": "Schedule draft post",
-        "parameters": [],
-        "responses": {
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PostScheduleResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Posts"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PostScheduleRequest"
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/pricing": {
       "get": {
         "operationId": "getPricing",
@@ -1148,30 +824,32 @@
         ]
       }
     },
-    "/v1/scrape": {
+    "/v1/score": {
       "post": {
-        "operationId": "scrapeContent",
-        "summary": "Scrape creator data",
+        "operationId": "scoreMedia",
+        "summary": "Score media content",
         "parameters": [],
         "responses": {
           "200": {
             "description": "The request has succeeded.",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreResponse"
+                }
               }
             }
           }
         },
         "tags": [
-          "Scrape"
+          "Score"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ScrapeRequest"
+                "$ref": "#/components/schemas/ScoreRequest"
               }
             }
           }
@@ -1293,9 +971,6 @@
           "clientId": {
             "type": "string"
           },
-          "campaignId": {
-            "type": "string"
-          },
           "platform": {
             "type": "string",
             "enum": [
@@ -1305,19 +980,19 @@
           "name": {
             "type": "string"
           },
-          "username": {
+          "handle": {
             "type": "string"
           },
           "bio": {
             "type": "string"
           },
-          "profilePictureUrl": {
+          "pfp": {
+            "type": "string"
+          },
+          "niche": {
             "type": "string"
           },
           "linkInBio": {
-            "type": "string"
-          },
-          "tokportalId": {
             "type": "string"
           },
           "status": {
@@ -1332,54 +1007,6 @@
           "createdAt": {
             "type": "integer",
             "format": "int64"
-          }
-        }
-      },
-      "AccountAnalytics": {
-        "type": "object",
-        "required": [
-          "accountId",
-          "platform",
-          "followers",
-          "following",
-          "posts",
-          "engagement_rate",
-          "avg_likes",
-          "avg_comments"
-        ],
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "platform": {
-            "type": "string",
-            "enum": [
-              "instagram"
-            ]
-          },
-          "followers": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "following": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "posts": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "engagement_rate": {
-            "type": "number",
-            "format": "float"
-          },
-          "avg_likes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "avg_comments": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -1399,13 +1026,16 @@
           "name": {
             "type": "string"
           },
-          "username": {
+          "handle": {
             "type": "string"
           },
           "bio": {
             "type": "string"
           },
-          "profilePictureUrl": {
+          "pfp": {
+            "type": "string"
+          },
+          "niche": {
             "type": "string"
           },
           "linkInBio": {
@@ -1476,48 +1106,6 @@
           }
         }
       },
-      "AccountProvisionRequest": {
-        "type": "object",
-        "required": [
-          "accountId"
-        ],
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "niche": {
-            "type": "string"
-          }
-        }
-      },
-      "AccountProvisionResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "status",
-          "creditsCharged"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "creating"
-            ]
-          },
-          "creditsCharged": {
-            "type": "number",
-            "enum": [
-              990
-            ]
-          }
-        }
-      },
       "AccountStatus": {
         "type": "string",
         "enum": [
@@ -1531,7 +1119,7 @@
       "AccountUpdateRequest": {
         "type": "object",
         "properties": {
-          "username": {
+          "handle": {
             "type": "string"
           },
           "name": {
@@ -1540,7 +1128,10 @@
           "bio": {
             "type": "string"
           },
-          "profilePictureUrl": {
+          "pfp": {
+            "type": "string"
+          },
+          "niche": {
             "type": "string"
           },
           "linkInBio": {
@@ -1702,17 +1293,6 @@
           },
           "errorMessage": {
             "type": "string"
-          }
-        }
-      },
-      "AnalyticsRefreshResponse": {
-        "type": "object",
-        "required": [
-          "refreshed"
-        ],
-        "properties": {
-          "refreshed": {
-            "type": "boolean"
           }
         }
       },
@@ -2094,121 +1674,59 @@
           }
         }
       },
-      "BreakdownItem": {
+      "BreakdownCreateResponse": {
         "type": "object",
         "required": [
-          "label",
-          "amount"
+          "id",
+          "status"
         ],
         "properties": {
-          "label": {
+          "id": {
             "type": "string"
           },
-          "amount": {
-            "type": "integer",
-            "format": "int32"
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending"
+            ]
           }
         }
       },
-      "CampaignCancelRequest": {
+      "BreakdownGetResponse": {
         "type": "object",
         "required": [
-          "campaignId"
+          "id",
+          "status"
         ],
         "properties": {
-          "campaignId": {
-            "type": "string"
-          }
-        }
-      },
-      "CampaignCreateRequest": {
-        "type": "object",
-        "required": [
-          "accountId",
-          "videoCount"
-        ],
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "videoCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "durationDays": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "CampaignEstimateRequest": {
-        "type": "object",
-        "required": [
-          "accountId",
-          "videoCount"
-        ],
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "videoCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "durationDays": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "CampaignEstimateResponse": {
-        "type": "object",
-        "required": [
-          "estimatedCredits",
-          "breakdown"
-        ],
-        "properties": {
-          "estimatedCredits": {
-            "type": "number",
-            "format": "double"
-          },
-          "breakdown": {
-            "type": "object",
-            "additionalProperties": {}
-          }
-        }
-      },
-      "CampaignExecuteRequest": {
-        "type": "object",
-        "required": [
-          "campaignId"
-        ],
-        "properties": {
-          "campaignId": {
-            "type": "string"
-          }
-        }
-      },
-      "CampaignResponse": {
-        "type": "object",
-        "required": [
-          "campaignId",
-          "status",
-          "accountId"
-        ],
-        "properties": {
-          "campaignId": {
+          "id": {
             "type": "string"
           },
           "status": {
             "type": "string"
           },
-          "accountId": {
+          "result": {}
+        }
+      },
+      "BreakdownRequest": {
+        "type": "object",
+        "required": [
+          "mediaUrl",
+          "mediaType"
+        ],
+        "properties": {
+          "mediaUrl": {
             "type": "string"
           },
-          "creditsCharged": {
-            "type": "number",
-            "format": "double"
+          "mediaType": {
+            "type": "string",
+            "enum": [
+              "video",
+              "image"
+            ]
+          },
+          "prompt": {
+            "type": "string"
           }
         }
       },
@@ -2216,11 +1734,8 @@
         "type": "object",
         "required": [
           "accounts.create",
-          "accounts.provision",
           "posts.create",
-          "posts.schedule",
-          "analyze",
-          "scrape"
+          "analyze"
         ],
         "properties": {
           "accounts.create": {
@@ -2228,73 +1743,64 @@
             "format": "int32",
             "description": "Create draft account (free)"
           },
-          "accounts.provision": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Provision account via TokPortal"
-          },
           "posts.create": {
             "type": "integer",
             "format": "int32",
             "description": "Create draft post (free)"
           },
-          "posts.schedule": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Schedule post for publishing"
-          },
           "analyze": {
             "type": "integer",
             "format": "int32",
             "description": "Analyze media (critic/verify/breakdown)"
-          },
-          "scrape": {
-            "type": "integer",
-            "format": "int32",
-            "description": "Scrape creator data"
           }
         }
       },
-      "EstimateRequest": {
+      "CriticRequest": {
         "type": "object",
         "required": [
-          "accounts",
-          "posts",
-          "platform"
+          "mediaUrl",
+          "mediaType"
         ],
         "properties": {
-          "accounts": {
-            "type": "integer",
-            "format": "int32"
+          "mediaUrl": {
+            "type": "string"
           },
-          "posts": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "platform": {
+          "mediaType": {
             "type": "string",
             "enum": [
-              "instagram"
+              "video",
+              "image"
             ]
+          },
+          "context": {
+            "type": "string"
           }
         }
       },
-      "EstimateResponse": {
+      "CriticResponse": {
         "type": "object",
         "required": [
-          "credits",
-          "breakdown"
+          "score",
+          "issues",
+          "verdict"
         ],
         "properties": {
-          "credits": {
-            "type": "integer",
-            "format": "int32"
+          "score": {
+            "type": "number",
+            "format": "float"
           },
-          "breakdown": {
+          "issues": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BreakdownItem"
+              "type": "string"
             }
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail"
+            ]
           }
         }
       },
@@ -2341,9 +1847,6 @@
           "clientId": {
             "type": "string"
           },
-          "campaignId": {
-            "type": "string"
-          },
           "accountId": {
             "type": "string"
           },
@@ -2357,10 +1860,6 @@
             "type": "string"
           },
           "brief": {},
-          "scheduledAt": {
-            "type": "integer",
-            "format": "int64"
-          },
           "status": {
             "$ref": "#/components/schemas/PostStatus"
           },
@@ -2374,43 +1873,6 @@
           "createdAt": {
             "type": "integer",
             "format": "int64"
-          }
-        }
-      },
-      "PostAssignRequest": {
-        "type": "object",
-        "required": [
-          "postId",
-          "accountId"
-        ],
-        "properties": {
-          "postId": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          }
-        }
-      },
-      "PostAssignResponse": {
-        "type": "object",
-        "required": [
-          "postId",
-          "accountId",
-          "status"
-        ],
-        "properties": {
-          "postId": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "assigned"
-            ]
           }
         }
       },
@@ -2430,10 +1892,6 @@
             "type": "string"
           },
           "brief": {},
-          "scheduledAt": {
-            "type": "integer",
-            "format": "int64"
-          },
           "tags": {
             "type": "array",
             "items": {
@@ -2485,45 +1943,6 @@
           }
         }
       },
-      "PostDuplicateRequest": {
-        "type": "object",
-        "required": [
-          "postId"
-        ],
-        "properties": {
-          "postId": {
-            "type": "string"
-          },
-          "accountId": {
-            "type": "string"
-          }
-        }
-      },
-      "PostDuplicateResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "status",
-          "creditsCharged"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "draft"
-            ]
-          },
-          "creditsCharged": {
-            "type": "number",
-            "enum": [
-              0
-            ]
-          }
-        }
-      },
       "PostListResponse": {
         "type": "object",
         "required": [
@@ -2535,42 +1954,6 @@
             "items": {
               "$ref": "#/components/schemas/Post"
             }
-          }
-        }
-      },
-      "PostScheduleRequest": {
-        "type": "object",
-        "required": [
-          "postId"
-        ],
-        "properties": {
-          "postId": {
-            "type": "string"
-          }
-        }
-      },
-      "PostScheduleResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "status",
-          "creditsCharged"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "scheduled"
-            ]
-          },
-          "creditsCharged": {
-            "type": "number",
-            "enum": [
-              36
-            ]
           }
         }
       },
@@ -2599,10 +1982,6 @@
           },
           "accountId": {
             "type": "string"
-          },
-          "scheduledAt": {
-            "type": "integer",
-            "format": "int64"
           },
           "brief": {},
           "tags": {
@@ -2655,25 +2034,54 @@
           }
         }
       },
-      "ScrapeRequest": {
+      "ScoreRequest": {
         "type": "object",
         "required": [
-          "platform",
-          "action"
+          "mediaUrl",
+          "mediaType"
         ],
         "properties": {
-          "platform": {
-            "type": "string",
-            "enum": [
-              "instagram"
-            ]
-          },
-          "action": {
+          "mediaUrl": {
             "type": "string"
           },
-          "params": {
+          "mediaType": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "niches": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "ScoreResponse": {
+        "type": "object",
+        "required": [
+          "score",
+          "breakdown",
+          "suggestions"
+        ],
+        "properties": {
+          "score": {
+            "type": "number",
+            "format": "float"
+          },
+          "breakdown": {
             "type": "object",
             "additionalProperties": {}
+          },
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -2757,55 +2165,6 @@
           },
           "contentType": {
             "type": "string"
-          }
-        }
-      },
-      "VideoStat": {
-        "type": "object",
-        "required": [
-          "id",
-          "views",
-          "likes",
-          "comments",
-          "shares"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "views": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "likes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "comments": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "shares": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "VideoStatsResponse": {
-        "type": "object",
-        "required": [
-          "accountId",
-          "videos"
-        ],
-        "properties": {
-          "accountId": {
-            "type": "string"
-          },
-          "videos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VideoStat"
-            }
           }
         }
       }
