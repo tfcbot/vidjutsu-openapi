@@ -14,12 +14,21 @@ model ApiError {
 }
 
 model CreditCosts {
-  @doc("Create draft account (free)")
+  @doc("Create account (free)")
   `accounts.create`: int32;
 
-  @doc("Create draft post (free)")
+  @doc("Create post (free)")
   `posts.create`: int32;
 
-  @doc("Analyze media (critic/verify/breakdown)")
-  analyze: int32;
+  @doc("Watch media via Gemini")
+  watch: int32;
+
+  @doc("Extract frames/audio/metadata")
+  extract: int32;
+
+  @doc("Transcribe speech to text")
+  transcribe: int32;
+
+  @doc("Check spec against rules")
+  check: int32;
 }
