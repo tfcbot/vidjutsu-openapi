@@ -22,6 +22,7 @@ model Asset {
   size?: int64;
   type: AssetType;
   tags?: Tag[];
+  metadata?: Record<unknown>;
   status: AssetStatus;
   createdAt: int64;
 }
@@ -31,6 +32,7 @@ model AssetCreateRequest {
   name?: string;
   contentType?: string;
   tags?: Tag[];
+  metadata?: Record<unknown>;
 }
 
 model AssetCreateResponse {
@@ -42,6 +44,7 @@ model AssetCreateResponse {
 model AssetUpdateRequest {
   name?: string;
   tags?: Tag[];
+  metadata?: Record<unknown>;
 }
 
 model AssetUpdateResponse {
