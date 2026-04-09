@@ -1105,6 +1105,11 @@
       }
     }
   },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
   "components": {
     "schemas": {
       "Account": {
@@ -1630,6 +1635,30 @@
             "type": "string"
           }
         }
+      },
+      "BearerAuth": {
+        "type": "object",
+        "required": [
+          "type",
+          "scheme"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "http"
+            ],
+            "description": "Http authentication"
+          },
+          "scheme": {
+            "type": "string",
+            "enum": [
+              "bearer"
+            ],
+            "description": "bearer auth scheme"
+          }
+        },
+        "description": ""
       },
       "CheckRequest": {
         "type": "object",
@@ -2430,6 +2459,12 @@
             "description": "Structured JSON response from AI based on the prompt"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   },

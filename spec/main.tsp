@@ -31,4 +31,7 @@ using Rest;
   version: "2026-04-02",
 })
 @server("https://api.vidjutsu.ai", "Production")
+@useAuth(BearerAuth)
 namespace VidJutsu;
+
+model BearerAuth is Http.BearerAuth;
