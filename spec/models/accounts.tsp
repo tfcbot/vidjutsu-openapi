@@ -11,14 +11,13 @@ enum AccountStatus {
 model Account {
   accountId: string;
   clientId: string;
-  campaignId?: string;
   platform: "instagram";
   name: string;
-  username?: string;
+  handle?: string;
   bio?: string;
-  profilePictureUrl?: string;
+  pfp?: string;
+  niche?: string;
   linkInBio?: string;
-  tokportalId?: string;
   status: AccountStatus;
   tags?: Tag[];
   createdAt: int64;
@@ -27,9 +26,10 @@ model Account {
 model AccountCreateRequest {
   platform: "instagram";
   name: string;
-  username?: string;
+  handle?: string;
   bio?: string;
-  profilePictureUrl?: string;
+  pfp?: string;
+  niche?: string;
   linkInBio?: string;
   tags?: Tag[];
 }
@@ -41,10 +41,11 @@ model AccountCreateResponse {
 }
 
 model AccountUpdateRequest {
-  username?: string;
+  handle?: string;
   name?: string;
   bio?: string;
-  profilePictureUrl?: string;
+  pfp?: string;
+  niche?: string;
   linkInBio?: string;
   tags?: Tag[];
 }
@@ -52,18 +53,6 @@ model AccountUpdateRequest {
 model AccountUpdateResponse {
   accountId: string;
   updated: true;
-}
-
-model AccountProvisionRequest {
-  accountId: string;
-  country?: string;
-  niche?: string;
-}
-
-model AccountProvisionResponse {
-  id: string;
-  status: "creating";
-  creditsCharged: 990;
 }
 
 model AccountDeleteResponse {

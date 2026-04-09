@@ -61,18 +61,3 @@ interface Analyze {
   @get @operationId("getAnalysisStatus") @summary("Poll breakdown analysis status")
   getStatus(@query id: string): AnalysisStatusResponse;
 }
-
-// --- Scrape ---
-
-model ScrapeRequest {
-  platform: "instagram";
-  action: string;
-  params?: Record<unknown>;
-}
-
-@route("/v1/scrape")
-@tag("Scrape")
-interface Scrape {
-  @post @operationId("scrapeContent") @summary("Scrape creator data")
-  scrape(@body body: ScrapeRequest): unknown;
-}
