@@ -8,7 +8,6 @@ namespace VidJutsu;
 model ApiKeyCreateRequest {
   credits?: int32;
   email?: string;
-  successUrl?: string;
 }
 
 model ApiKeyCreateResponse {
@@ -40,21 +39,27 @@ model ApiKeyRecoverResponse {
   message: string;
 }
 
-@route("/v1/api_keys")
-@tag("API Keys")
-interface ApiKeys {
-  @post @operationId("createApiKey") @summary("Create API key")
+@route("/v1/credits")
+@tag("Credits")
+interface Credits {
+  @post @operationId("createCheckout") @summary("Create checkout session")
   create(@body body: ApiKeyCreateRequest): ApiKeyCreateResponse;
 
   @route("/status")
-  @get @operationId("getApiKeyStatus") @summary("Check API key status")
+  @get @operationId("getCheckoutStatus") @summary("Check checkout status")
   status(@query session: string): ApiKeyStatusResponse;
+}
 
-  @route("/rotate")
+@route("/v1/api_keys/rotate")
+@tag("API Keys")
+interface ApiKeyRotate {
   @post @operationId("rotateApiKey") @summary("Rotate API key")
   rotate(): ApiKeyRotateResponse;
+}
 
-  @route("/recover")
+@route("/v1/api_keys/recover")
+@tag("API Keys")
+interface ApiKeyRecover {
   @post @operationId("recoverApiKey") @summary("Recover API key")
   recover(@body body: ApiKeyRecoverRequest): ApiKeyRecoverResponse;
 }
@@ -116,10 +121,9 @@ interface Pricing {
 
 model SubscriptionCreateRequest {
   email?: string;
-  successUrl?: string;
 }
 
-@route("/v1/subscriptions")
+@route("/v1/subscribe")
 @tag("Subscriptions")
 interface Subscriptions {
   @post @operationId("createSubscription") @summary("Create subscription")

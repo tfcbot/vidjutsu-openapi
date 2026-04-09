@@ -9,6 +9,9 @@
       "name": "Assets"
     },
     {
+      "name": "Credits"
+    },
+    {
       "name": "API Keys"
     },
     {
@@ -28,6 +31,9 @@
     },
     {
       "name": "Posts"
+    },
+    {
+      "name": "References"
     },
     {
       "name": "Upload"
@@ -186,38 +192,6 @@
         ]
       }
     },
-    "/v1/api_keys": {
-      "post": {
-        "operationId": "createApiKey",
-        "summary": "Create API key",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiKeyCreateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "API Keys"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiKeyCreateRequest"
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/api_keys/recover": {
       "post": {
         "operationId": "recoverApiKey",
@@ -262,38 +236,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiKeyRotateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "API Keys"
-        ]
-      }
-    },
-    "/v1/api_keys/status": {
-      "get": {
-        "operationId": "getApiKeyStatus",
-        "summary": "Check API key status",
-        "parameters": [
-          {
-            "name": "session",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiKeyStatusResponse"
                 }
               }
             }
@@ -562,6 +504,70 @@
         }
       }
     },
+    "/v1/credits": {
+      "post": {
+        "operationId": "createCheckout",
+        "summary": "Create checkout session",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyCreateResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credits"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyCreateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/credits/status": {
+      "get": {
+        "operationId": "getCheckoutStatus",
+        "summary": "Check checkout status",
+        "parameters": [
+          {
+            "name": "session",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credits"
+        ]
+      }
+    },
     "/v1/extract": {
       "post": {
         "operationId": "extractMedia",
@@ -788,7 +794,156 @@
         ]
       }
     },
-    "/v1/subscriptions": {
+    "/v1/references": {
+      "post": {
+        "operationId": "createReference",
+        "summary": "Create reference",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReferenceCreateResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "References"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReferenceCreateRequest"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateReference",
+        "summary": "Update reference",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReferenceUpdateResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "References"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReferenceUpdateRequest"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listOrGetReferences",
+        "summary": "List references or get by ID",
+        "description": "Returns a single reference if ?id= is provided, or a list. Filter by ?platform= or ?tag.key=value.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          },
+          {
+            "name": "platform",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Reference"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ReferenceListResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "References"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteReference",
+        "summary": "Delete reference",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReferenceDeleteResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "References"
+        ]
+      }
+    },
+    "/v1/subscribe": {
       "post": {
         "operationId": "createSubscription",
         "summary": "Create subscription",
@@ -1108,9 +1263,7 @@
         "type": "string",
         "enum": [
           "draft",
-          "creating",
           "active",
-          "suspended",
           "deleted"
         ]
       },
@@ -1187,9 +1340,6 @@
             "format": "int32"
           },
           "email": {
-            "type": "string"
-          },
-          "successUrl": {
             "type": "string"
           }
         }
@@ -1764,7 +1914,7 @@
           "videoId": {
             "type": "string"
           },
-          "videoUrl": {
+          "mediaUrl": {
             "type": "string"
           },
           "caption": {
@@ -1774,7 +1924,6 @@
           "status": {
             "$ref": "#/components/schemas/PostStatus"
           },
-          "metrics": {},
           "tags": {
             "type": "array",
             "items": {
@@ -1796,7 +1945,7 @@
           "videoId": {
             "type": "string"
           },
-          "videoUrl": {
+          "mediaUrl": {
             "type": "string"
           },
           "caption": {
@@ -1849,7 +1998,7 @@
           "status": {
             "type": "string",
             "enum": [
-              "cancelled"
+              "deleted"
             ]
           }
         }
@@ -1872,11 +2021,8 @@
         "type": "string",
         "enum": [
           "draft",
-          "scheduled",
-          "posting",
-          "posted",
-          "failed",
-          "cancelled"
+          "active",
+          "deleted"
         ]
       },
       "PostUpdateRequest": {
@@ -1885,7 +2031,7 @@
           "caption": {
             "type": "string"
           },
-          "videoUrl": {
+          "mediaUrl": {
             "type": "string"
           },
           "videoId": {
@@ -1945,13 +2091,175 @@
           }
         }
       },
+      "Reference": {
+        "type": "object",
+        "required": [
+          "referenceId",
+          "clientId",
+          "url",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "referenceId": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "metadata": {},
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "deleted"
+            ]
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ReferenceCreateRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "metadata": {}
+        }
+      },
+      "ReferenceCreateResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "creditsCharged"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active"
+            ]
+          },
+          "creditsCharged": {
+            "type": "number",
+            "enum": [
+              0
+            ]
+          }
+        }
+      },
+      "ReferenceDeleteResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "deleted"
+            ]
+          }
+        }
+      },
+      "ReferenceListResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reference"
+            }
+          }
+        }
+      },
+      "ReferenceUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "metadata": {}
+        }
+      },
+      "ReferenceUpdateResponse": {
+        "type": "object",
+        "required": [
+          "referenceId",
+          "updated"
+        ],
+        "properties": {
+          "referenceId": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        }
+      },
       "SubscriptionCreateRequest": {
         "type": "object",
         "properties": {
           "email": {
-            "type": "string"
-          },
-          "successUrl": {
             "type": "string"
           }
         }
@@ -2058,23 +2366,24 @@
       "UploadResponse": {
         "type": "object",
         "required": [
-          "id",
           "assetId",
           "url",
-          "clientId"
+          "key",
+          "size"
         ],
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "assetId": {
             "type": "string"
           },
           "url": {
             "type": "string"
           },
-          "clientId": {
+          "key": {
             "type": "string"
+          },
+          "size": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

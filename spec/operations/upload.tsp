@@ -4,10 +4,10 @@ using OpenAPI;
 namespace VidJutsu;
 
 model UploadResponse {
-  id: string;
   assetId: string;
   url: string;
-  clientId: string;
+  key: string;
+  size: float64;
 }
 
 model UploadUrlRequest {

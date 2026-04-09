@@ -7,11 +7,13 @@ import "./models/common.tsp";
 import "./models/accounts.tsp";
 import "./models/posts.tsp";
 import "./models/assets.tsp";
+import "./models/references.tsp";
 
 import "./operations/assets.tsp";
 import "./operations/auth.tsp";
 import "./operations/accounts.tsp";
 import "./operations/posts.tsp";
+import "./operations/references.tsp";
 import "./operations/upload.tsp";
 import "./operations/watch.tsp";
 import "./operations/extract.tsp";

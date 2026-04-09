@@ -2,9 +2,7 @@ namespace VidJutsu;
 
 enum AccountStatus {
   draft,
-  creating,
   active,
-  suspended,
   deleted,
 }
 

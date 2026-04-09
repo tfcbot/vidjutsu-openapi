@@ -2,11 +2,8 @@ namespace VidJutsu;
 
 enum PostStatus {
   draft,
-  scheduled,
-  posting,
-  posted,
-  failed,
-  cancelled,
+  active,
+  deleted,
 }
 
 model Post {
@@ -14,11 +11,10 @@ model Post {
   clientId: string;
   accountId?: string;
   videoId?: string;
-  videoUrl?: string;
+  mediaUrl?: string;
   caption?: string;
   brief?: unknown;
   status: PostStatus;
-  metrics?: unknown;
   tags?: Tag[];
   createdAt: int64;
 }
@@ -26,7 +22,7 @@ model Post {
 model PostCreateRequest {
   accountId?: string;
   videoId?: string;
-  videoUrl?: string;
+  mediaUrl?: string;
   caption?: string;
   brief?: unknown;
   tags?: Tag[];
@@ -40,7 +36,7 @@ model PostCreateResponse {
 
 model PostUpdateRequest {
   caption?: string;
-  videoUrl?: string;
+  mediaUrl?: string;
   videoId?: string;
   accountId?: string;
   brief?: unknown;
@@ -54,7 +50,7 @@ model PostUpdateResponse {
 
 model PostDeleteResponse {
   id: string;
-  status: "cancelled";
+  status: "deleted";
 }
 
 model PostListResponse {
