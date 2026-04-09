@@ -14,10 +14,10 @@ model ApiError {
 }
 
 model CreditCosts {
-  @doc("Create draft account (free)")
+  @doc("Create account (free)")
   `accounts.create`: int32;
 
-  @doc("Create draft post (free)")
+  @doc("Create post (free)")
   `posts.create`: int32;
 
   @doc("Analyze media (critic/verify/breakdown)")

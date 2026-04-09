@@ -6,13 +6,13 @@ namespace VidJutsu;
 @route("/v1/accounts")
 @tag("Accounts")
 interface Accounts {
-  @post @operationId("createAccount") @summary("Create draft account")
+  @post @operationId("createAccount") @summary("Create account")
   create(@body body: AccountCreateRequest): {
     @statusCode _: 201;
     @body body: AccountCreateResponse;
   };
 
-  @put @operationId("updateAccount") @summary("Update draft account")
+  @put @operationId("updateAccount") @summary("Update account")
   update(@query id: string, @body body: AccountUpdateRequest): AccountUpdateResponse;
 
   @get @operationId("listOrGetAccounts") @summary("List accounts or get by ID")
