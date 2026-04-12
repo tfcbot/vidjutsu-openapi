@@ -27,6 +27,9 @@
       "name": "Subscriptions"
     },
     {
+      "name": "Auth"
+    },
+    {
       "name": "Accounts"
     },
     {
@@ -49,6 +52,9 @@
     },
     {
       "name": "Check"
+    },
+    {
+      "name": "Overlay"
     }
   ],
   "paths": {
@@ -395,6 +401,72 @@
         ]
       }
     },
+    "/v1/auth/verify/confirm": {
+      "post": {
+        "operationId": "confirmVerification",
+        "summary": "Confirm email verification code",
+        "description": "Validates the 6-digit code and returns API credentials if correct. Code expires after 5 minutes.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyConfirmResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyConfirmBody"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/verify/request": {
+      "post": {
+        "operationId": "requestVerification",
+        "summary": "Request email verification code",
+        "description": "Sends a 6-digit verification code to the email. Always returns sent: true to prevent email enumeration.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyRequestResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequestBody"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/balance": {
       "get": {
         "operationId": "getBalance",
@@ -621,6 +693,39 @@
         "tags": [
           "Info"
         ]
+      }
+    },
+    "/v1/overlay": {
+      "post": {
+        "operationId": "createOverlay",
+        "summary": "Burn text overlay onto video",
+        "description": "Burns text overlay onto a video using FFmpeg ASS subtitles. Supports TikTok-safe zones, configurable font size, stroke thickness, and top/center/bottom positioning. Returns CDN URL of the result. 5 credits.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverlayResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Overlay"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OverlayRequest"
+              }
+            }
+          }
+        }
       }
     },
     "/v1/posts": {
@@ -953,7 +1058,9 @@
             "description": "The request has succeeded.",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionCreateResponse"
+                }
               }
             }
           }
@@ -1353,7 +1460,7 @@
         "type": "object",
         "required": [
           "url",
-          "sessionId",
+          "claimToken",
           "credits",
           "amount"
         ],
@@ -1361,7 +1468,7 @@
           "url": {
             "type": "string"
           },
-          "sessionId": {
+          "claimToken": {
             "type": "string"
           },
           "credits": {
@@ -1934,6 +2041,59 @@
           }
         }
       },
+      "OverlayRequest": {
+        "type": "object",
+        "required": [
+          "videoUrl",
+          "text"
+        ],
+        "properties": {
+          "videoUrl": {
+            "type": "string",
+            "description": "URL of the source video"
+          },
+          "text": {
+            "type": "string",
+            "description": "Overlay text. Use \\\\n for line breaks."
+          },
+          "position": {
+            "type": "string",
+            "enum": [
+              "top",
+              "center",
+              "bottom"
+            ],
+            "description": "Vertical text placement"
+          },
+          "fontSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Font size in pixels. Defaults to 4% of video height."
+          },
+          "strokeThickness": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Text outline thickness (0-10). Defaults to 2."
+          }
+        }
+      },
+      "OverlayResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "resultUrl"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Overlay asset ID"
+          },
+          "resultUrl": {
+            "type": "string",
+            "description": "CDN URL of the overlaid video"
+          }
+        }
+      },
       "Post": {
         "type": "object",
         "required": [
@@ -2299,8 +2459,26 @@
       },
       "SubscriptionCreateRequest": {
         "type": "object",
+        "required": [
+          "email"
+        ],
         "properties": {
           "email": {
+            "type": "string"
+          }
+        }
+      },
+      "SubscriptionCreateResponse": {
+        "type": "object",
+        "required": [
+          "url",
+          "claimToken"
+        ],
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "claimToken": {
             "type": "string"
           }
         }
@@ -2439,6 +2617,65 @@
           },
           "contentType": {
             "type": "string"
+          }
+        }
+      },
+      "VerifyConfirmBody": {
+        "type": "object",
+        "required": [
+          "email",
+          "code"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "VerifyConfirmResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "apiKey",
+          "clientId"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "verified"
+            ]
+          },
+          "apiKey": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          }
+        }
+      },
+      "VerifyRequestBody": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "VerifyRequestResponse": {
+        "type": "object",
+        "required": [
+          "sent"
+        ],
+        "properties": {
+          "sent": {
+            "type": "boolean"
           }
         }
       },
