@@ -12,7 +12,7 @@ model ApiKeyCreateRequest {
 
 model ApiKeyCreateResponse {
   url: string;
-  sessionId: string;
+  claimToken: string;
   credits: int32;
   amount: int32;
 }
@@ -120,12 +120,52 @@ interface Pricing {
 // --- Subscriptions ---
 
 model SubscriptionCreateRequest {
-  email?: string;
+  email: string;
+}
+
+model SubscriptionCreateResponse {
+  url: string;
+  claimToken: string;
 }
 
 @route("/v1/subscribe")
 @tag("Subscriptions")
 interface Subscriptions {
   @post @operationId("createSubscription") @summary("Create subscription")
-  create(@body body: SubscriptionCreateRequest): unknown;
+  create(@body body: SubscriptionCreateRequest): SubscriptionCreateResponse;
+}
+
+// --- Email Verification ---
+
+model VerifyRequestBody {
+  email: string;
+}
+
+model VerifyRequestResponse {
+  sent: boolean;
+}
+
+model VerifyConfirmBody {
+  email: string;
+  code: string;
+}
+
+model VerifyConfirmResponse {
+  status: "verified";
+  apiKey: string;
+  clientId: string;
+}
+
+@route("/v1/auth/verify")
+@tag("Auth")
+interface AuthVerify {
+  @route("/request")
+  @post @operationId("requestVerification") @summary("Request email verification code")
+  @doc("Sends a 6-digit verification code to the email. Always returns sent: true to prevent email enumeration.")
+  request(@body body: VerifyRequestBody): VerifyRequestResponse;
+
+  @route("/confirm")
+  @post @operationId("confirmVerification") @summary("Confirm email verification code")
+  @doc("Validates the 6-digit code and returns API credentials if correct. Code expires after 5 minutes.")
+  confirm(@body body: VerifyConfirmBody): VerifyConfirmResponse;
 }

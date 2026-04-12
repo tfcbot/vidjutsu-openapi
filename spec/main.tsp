@@ -19,6 +19,7 @@ import "./operations/watch.tsp";
 import "./operations/extract.tsp";
 import "./operations/transcribe.tsp";
 import "./operations/check.tsp";
+import "./operations/overlay.tsp";
 
 using Http;
 using OpenAPI;
