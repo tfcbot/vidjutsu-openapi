@@ -12,7 +12,6 @@ model ApiKeyCreateRequest {
 
 model ApiKeyCreateResponse {
   url: string;
-  claimToken: string;
   credits: int32;
   amount: int32;
 }
