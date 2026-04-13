@@ -1460,15 +1460,11 @@
         "type": "object",
         "required": [
           "url",
-          "claimToken",
           "credits",
           "amount"
         ],
         "properties": {
           "url": {
-            "type": "string"
-          },
-          "claimToken": {
             "type": "string"
           },
           "credits": {
