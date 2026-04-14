@@ -53,12 +53,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.DOWNSTREAM_PAT }}
 
-      - name: Trigger CLI spec sync
-        if: steps.commit.outputs.changed == 'true' && env.GH_TOKEN != ''
-        run: gh workflow run sync-spec.yml --repo tfcbot/vidjutsu-cli
-        env:
-          GH_TOKEN: ${{ secrets.DOWNSTREAM_PAT }}
-
       - name: Trigger SDK spec sync
         if: steps.commit.outputs.changed == 'true' && env.GH_TOKEN != ''
         run: gh workflow run sync-spec.yml --repo tfcbot/vidjutsu-sdk
