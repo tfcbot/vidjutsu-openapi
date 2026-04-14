@@ -467,10 +467,10 @@
         }
       }
     },
-    "/v1/balance": {
+    "/v1/usage": {
       "get": {
-        "operationId": "getBalance",
-        "summary": "Get credit balance",
+        "operationId": "getUsage",
+        "summary": "Get daily usage and rate limits",
         "parameters": [],
         "responses": {
           "200": {
@@ -478,14 +478,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BalanceResponse"
+                  "$ref": "#/components/schemas/UsageResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Balance"
+          "Usage"
         ]
       }
     },
@@ -570,38 +570,6 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CheckRulesUpdateRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/credits": {
-      "post": {
-        "operationId": "createCheckout",
-        "summary": "Create checkout session",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiKeyCreateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Credits"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiKeyCreateRequest"
               }
             }
           }
@@ -1735,18 +1703,28 @@
           }
         }
       },
-      "BalanceResponse": {
+      "UsageResponse": {
         "type": "object",
         "required": [
-          "credits",
-          "clientId"
+          "clientId",
+          "usage",
+          "resetsAt"
         ],
         "properties": {
-          "credits": {
-            "type": "integer",
-            "format": "int32"
-          },
           "clientId": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "limit": { "type": "integer" },
+                "remaining": { "type": "integer" }
+              }
+            }
+          },
+          "resetsAt": {
             "type": "string"
           }
         }
