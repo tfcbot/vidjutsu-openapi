@@ -15,8 +15,8 @@ model CheckRequest {
   @doc("VidLang spec JSON to validate")
   spec: Record<unknown>;
 
-  @doc("Optional custom rules as plain text strings. Evaluated by AI")
-  rules?: string[];
+  @doc("VidLang rules config. All rules off by default — enable explicitly. E.g. { \"VL013\": true, \"VL003\": false, \"VL011\": { \"severity\": \"warning\" } }")
+  rules: Record<unknown>;
 }
 
 model CheckResponse {
@@ -36,7 +36,7 @@ model CheckRulesUpdateRequest {
 @tag("Check")
 interface Check {
   @post @operationId("checkSpec") @summary("Check spec")
-  @doc("Validate a VidLang spec against built-in rules and optional custom rules. 5 credits.")
+  @doc("Validate a VidLang spec against enabled rules. Rules are off by default — caller must enable at least one. 5 credits.")
   check(@body body: CheckRequest): CheckResponse;
 }
 

@@ -493,7 +493,7 @@
       "post": {
         "operationId": "checkSpec",
         "summary": "Check spec",
-        "description": "Validate a VidLang spec against built-in rules and optional custom rules. 5 credits.",
+        "description": "Validate a VidLang spec against enabled rules. Rules are off by default — caller must enable at least one. 5 credits.",
         "parameters": [],
         "responses": {
           "200": {
@@ -1778,7 +1778,8 @@
       "CheckRequest": {
         "type": "object",
         "required": [
-          "spec"
+          "spec",
+          "rules"
         ],
         "properties": {
           "spec": {
@@ -1787,11 +1788,9 @@
             "description": "VidLang spec JSON to validate"
           },
           "rules": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Optional custom rules as plain text strings. Evaluated by AI"
+            "type": "object",
+            "additionalProperties": {},
+            "description": "VidLang rules config. All rules off by default — enable explicitly. E.g. { \"VL013\": true, \"VL003\": false, \"VL011\": { \"severity\": \"warning\" } }"
           }
         }
       },
