@@ -5,17 +5,6 @@ namespace VidJutsu;
 
 // --- API Keys ---
 
-model ApiKeyCreateRequest {
-  credits?: int32;
-  email?: string;
-}
-
-model ApiKeyCreateResponse {
-  url: string;
-  credits: int32;
-  amount: int32;
-}
-
 model ApiKeyStatusResponse {
   status: "pending" | "completed";
   apiKey?: string;
@@ -41,9 +30,6 @@ model ApiKeyRecoverResponse {
 @route("/v1/credits")
 @tag("Credits")
 interface Credits {
-  @post @operationId("createCheckout") @summary("Create checkout session")
-  create(@body body: ApiKeyCreateRequest): ApiKeyCreateResponse;
-
   @route("/status")
   @get @operationId("getCheckoutStatus") @summary("Check checkout status")
   status(@query session: string): ApiKeyStatusResponse;
@@ -61,20 +47,6 @@ interface ApiKeyRotate {
 interface ApiKeyRecover {
   @post @operationId("recoverApiKey") @summary("Recover API key")
   recover(@body body: ApiKeyRecoverRequest): ApiKeyRecoverResponse;
-}
-
-// --- Balance ---
-
-model BalanceResponse {
-  credits: int32;
-  clientId: string;
-}
-
-@route("/v1/balance")
-@tag("Balance")
-interface Balance {
-  @get @operationId("getBalance") @summary("Get credit balance")
-  get(): BalanceResponse;
 }
 
 // --- Info ---
