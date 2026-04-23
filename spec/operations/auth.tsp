@@ -49,6 +49,27 @@ interface ApiKeyRecover {
   recover(@body body: ApiKeyRecoverRequest): ApiKeyRecoverResponse;
 }
 
+// --- Usage ---
+
+model UsageWindow {
+  limit: int32;
+  remaining: int32;
+}
+
+model UsageResponse {
+  clientId: string;
+  usage: Record<UsageWindow>;
+  resetsAt: string;
+}
+
+@route("/v1/usage")
+@tag("Usage")
+interface Usage {
+  @get @operationId("getUsage") @summary("Get daily usage")
+  @doc("Returns remaining rate-limit capacity per endpoint for the caller. Resets daily at 00:00 UTC.")
+  get(): UsageResponse;
+}
+
 // --- Info ---
 
 model InfoResponse {
