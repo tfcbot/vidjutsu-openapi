@@ -557,10 +557,43 @@
         }
       }
     },
-    "/v1/compliance": {
+    "/v1/compliance/prompt": {
       "post": {
-        "operationId": "checkCompliance",
-        "summary": "Check platform compliance",
+        "operationId": "checkCompliancePrompt",
+        "summary": "Check prompt compliance",
+        "description": "Scan a caption, ad copy, draft script, or other text against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 100/day rate limit.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplianceCheckResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Compliance"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompliancePromptRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/compliance/video": {
+      "post": {
+        "operationId": "checkComplianceVideo",
+        "summary": "Check video compliance",
         "description": "Scan a video against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 20/day rate limit.",
         "parameters": [],
         "responses": {
@@ -583,7 +616,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ComplianceCheckRequest"
+                "$ref": "#/components/schemas/ComplianceVideoRequest"
               }
             }
           }
@@ -1822,45 +1855,6 @@
           }
         }
       },
-      "ComplianceCheckRequest": {
-        "type": "object",
-        "required": [
-          "videoUrl",
-          "platform"
-        ],
-        "properties": {
-          "videoUrl": {
-            "type": "string",
-            "description": "Public URL of the video to scan."
-          },
-          "platform": {
-            "type": "string",
-            "enum": [
-              "youtube",
-              "tiktok",
-              "instagram",
-              "facebook-ads",
-              "x"
-            ]
-          },
-          "format": {
-            "type": "string",
-            "enum": [
-              "shortform",
-              "longform"
-            ],
-            "description": "Optional content format hint. Inferred from duration when omitted."
-          },
-          "context": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ComplianceContext"
-              }
-            ],
-            "description": "Optional publication metadata that affects risk (caption, hashtags, monetization intent)."
-          }
-        }
-      },
       "ComplianceCheckResponse": {
         "type": "object",
         "required": [
@@ -1966,6 +1960,87 @@
           "visualDescription": {
             "type": "string",
             "description": "Short description of the visual evidence, if any."
+          }
+        }
+      },
+      "CompliancePromptRequest": {
+        "type": "object",
+        "required": [
+          "text",
+          "platform"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text to evaluate — caption, ad copy, draft script, upload description, etc."
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "youtube",
+              "tiktok",
+              "instagram",
+              "facebook-ads",
+              "x"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "caption",
+              "script",
+              "ad-copy",
+              "description",
+              "other"
+            ],
+            "description": "Optional label for logs; does not affect rule selection."
+          },
+          "context": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ComplianceContext"
+              }
+            ],
+            "description": "Optional publication metadata that affects risk (caption, hashtags, monetization intent)."
+          }
+        }
+      },
+      "ComplianceVideoRequest": {
+        "type": "object",
+        "required": [
+          "videoUrl",
+          "platform"
+        ],
+        "properties": {
+          "videoUrl": {
+            "type": "string",
+            "description": "Public URL of the video to scan."
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "youtube",
+              "tiktok",
+              "instagram",
+              "facebook-ads",
+              "x"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "shortform",
+              "longform"
+            ],
+            "description": "Optional content format hint. Inferred from duration when omitted."
+          },
+          "context": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ComplianceContext"
+              }
+            ],
+            "description": "Optional publication metadata that affects risk (caption, hashtags, monetization intent)."
           }
         }
       },
