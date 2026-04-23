@@ -52,7 +52,7 @@ model ComplianceViolation {
   evidence: ComplianceEvidence;
 }
 
-model ComplianceCheckRequest {
+model ComplianceVideoRequest {
   @doc("Public URL of the video to scan.")
   videoUrl: string;
 
@@ -60,6 +60,21 @@ model ComplianceCheckRequest {
 
   @doc("Optional content format hint. Inferred from duration when omitted.")
   format?: ComplianceFormat;
+
+  @doc("Optional publication metadata that affects risk (caption, hashtags, monetization intent).")
+  context?: ComplianceContext;
+}
+
+alias CompliancePromptKind = "caption" | "script" | "ad-copy" | "description" | "other";
+
+model CompliancePromptRequest {
+  @doc("The text to evaluate — caption, ad copy, draft script, upload description, etc.")
+  text: string;
+
+  platform: CompliancePlatform;
+
+  @doc("Optional label for logs; does not affect rule selection.")
+  kind?: CompliancePromptKind;
 
   @doc("Optional publication metadata that affects risk (caption, hashtags, monetization intent).")
   context?: ComplianceContext;
@@ -85,7 +100,13 @@ model ComplianceCheckResponse {
 @route("/v1/compliance")
 @tag("Compliance")
 interface Compliance {
-  @post @operationId("checkCompliance") @summary("Check platform compliance")
+  @route("/video")
+  @post @operationId("checkComplianceVideo") @summary("Check video compliance")
   @doc("Scan a video against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 20/day rate limit.")
-  check(@body body: ComplianceCheckRequest): ComplianceCheckResponse;
+  video(@body body: ComplianceVideoRequest): ComplianceCheckResponse;
+
+  @route("/prompt")
+  @post @operationId("checkCompliancePrompt") @summary("Check prompt compliance")
+  @doc("Scan a caption, ad copy, draft script, or other text against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 100/day rate limit.")
+  prompt(@body body: CompliancePromptRequest): ComplianceCheckResponse;
 }
