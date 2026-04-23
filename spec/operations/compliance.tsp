@@ -3,7 +3,7 @@ using OpenAPI;
 
 namespace VidJutsu;
 
-alias CompliancePlatform = "youtube" | "tiktok" | "instagram" | "facebook-ads" | "x";
+alias CompliancePlatform = "youtube" | "tiktok" | "instagram" | "facebook-ads";
 alias ComplianceFormat = "shortform" | "longform";
 alias ComplianceSeverity = "low" | "medium" | "high" | "critical";
 alias ComplianceVerdict = "safe" | "caution" | "high-risk" | "likely-violation";
