@@ -15,6 +15,9 @@
       "name": "API Keys"
     },
     {
+      "name": "Usage"
+    },
+    {
       "name": "Info"
     },
     {
@@ -1155,6 +1158,29 @@
             }
           }
         }
+      }
+    },
+    "/v1/usage": {
+      "get": {
+        "operationId": "getUsage",
+        "summary": "Get daily usage",
+        "description": "Returns remaining rate-limit capacity per endpoint for the caller. Resets daily at 00:00 UTC.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Usage"
+        ]
       }
     },
     "/v1/watch": {
@@ -2729,6 +2755,45 @@
           },
           "contentType": {
             "type": "string"
+          }
+        }
+      },
+      "UsageResponse": {
+        "type": "object",
+        "required": [
+          "clientId",
+          "usage",
+          "resetsAt"
+        ],
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/UsageWindow"
+            }
+          },
+          "resetsAt": {
+            "type": "string"
+          }
+        }
+      },
+      "UsageWindow": {
+        "type": "object",
+        "required": [
+          "limit",
+          "remaining"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remaining": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
