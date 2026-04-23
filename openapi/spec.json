@@ -15,9 +15,6 @@
       "name": "API Keys"
     },
     {
-      "name": "Balance"
-    },
-    {
       "name": "Info"
     },
     {
@@ -465,28 +462,6 @@
             }
           }
         }
-      }
-    },
-    "/v1/usage": {
-      "get": {
-        "operationId": "getUsage",
-        "summary": "Get daily usage and rate limits",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsageResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Usage"
-        ]
       }
     },
     "/v1/check": {
@@ -1412,39 +1387,6 @@
           }
         }
       },
-      "ApiKeyCreateRequest": {
-        "type": "object",
-        "properties": {
-          "credits": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "email": {
-            "type": "string"
-          }
-        }
-      },
-      "ApiKeyCreateResponse": {
-        "type": "object",
-        "required": [
-          "url",
-          "credits",
-          "amount"
-        ],
-        "properties": {
-          "url": {
-            "type": "string"
-          },
-          "credits": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "amount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
       "ApiKeyRecoverRequest": {
         "type": "object",
         "required": [
@@ -1700,32 +1642,6 @@
             "enum": [
               true
             ]
-          }
-        }
-      },
-      "UsageResponse": {
-        "type": "object",
-        "required": [
-          "clientId",
-          "usage",
-          "resetsAt"
-        ],
-        "properties": {
-          "clientId": {
-            "type": "string"
-          },
-          "usage": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object",
-              "properties": {
-                "limit": { "type": "integer" },
-                "remaining": { "type": "integer" }
-              }
-            }
-          },
-          "resetsAt": {
-            "type": "string"
           }
         }
       },
