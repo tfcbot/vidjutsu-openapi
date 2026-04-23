@@ -51,6 +51,9 @@
       "name": "Check"
     },
     {
+      "name": "Compliance"
+    },
+    {
       "name": "Overlay"
     }
   ],
@@ -545,6 +548,39 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CheckRulesUpdateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/compliance": {
+      "post": {
+        "operationId": "checkCompliance",
+        "summary": "Check platform compliance",
+        "description": "Scan a video against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 20/day rate limit.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplianceCheckResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Compliance"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplianceCheckRequest"
               }
             }
           }
@@ -1757,6 +1793,193 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "ComplianceCheckRequest": {
+        "type": "object",
+        "required": [
+          "videoUrl",
+          "platform"
+        ],
+        "properties": {
+          "videoUrl": {
+            "type": "string",
+            "description": "Public URL of the video to scan."
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "youtube",
+              "tiktok",
+              "instagram",
+              "facebook-ads",
+              "x"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "shortform",
+              "longform"
+            ],
+            "description": "Optional content format hint. Inferred from duration when omitted."
+          },
+          "context": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ComplianceContext"
+              }
+            ],
+            "description": "Optional publication metadata that affects risk (caption, hashtags, monetization intent)."
+          }
+        }
+      },
+      "ComplianceCheckResponse": {
+        "type": "object",
+        "required": [
+          "riskScore",
+          "verdict",
+          "violations",
+          "platform",
+          "policySnapshotDate",
+          "disclaimer"
+        ],
+        "properties": {
+          "riskScore": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Composite risk score 0-100 computed deterministically from violation severities."
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "safe",
+              "caution",
+              "high-risk",
+              "likely-violation"
+            ]
+          },
+          "violations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComplianceViolation"
+            }
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "youtube",
+              "tiktok",
+              "instagram",
+              "facebook-ads",
+              "x"
+            ]
+          },
+          "policySnapshotDate": {
+            "type": "string",
+            "description": "ISO date of the newest active policy snapshot this scan was evaluated against."
+          },
+          "disclaimer": {
+            "type": "string",
+            "description": "Informational disclaimer. This response is not legal advice."
+          }
+        }
+      },
+      "ComplianceCitation": {
+        "type": "object",
+        "required": [
+          "text",
+          "sourceUrl",
+          "policyVersion"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Exact quoted clause from the platform's policy page."
+          },
+          "sourceUrl": {
+            "type": "string",
+            "description": "URL to the source policy page (may include #anchor)."
+          },
+          "policyVersion": {
+            "type": "string",
+            "description": "ISO date (YYYY-MM-DD) of the policy snapshot this citation was drawn from."
+          }
+        }
+      },
+      "ComplianceContext": {
+        "type": "object",
+        "properties": {
+          "caption": {
+            "type": "string"
+          },
+          "hashtags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "monetized": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ComplianceEvidence": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "number",
+            "format": "double",
+            "description": "Timestamp (seconds) in the source video where the evidence appears."
+          },
+          "transcriptExcerpt": {
+            "type": "string",
+            "description": "Relevant transcript excerpt, if any."
+          },
+          "visualDescription": {
+            "type": "string",
+            "description": "Short description of the visual evidence, if any."
+          }
+        }
+      },
+      "ComplianceViolation": {
+        "type": "object",
+        "required": [
+          "ruleId",
+          "category",
+          "severity",
+          "explanation",
+          "citation",
+          "evidence"
+        ],
+        "properties": {
+          "ruleId": {
+            "type": "string",
+            "description": "Stable identifier of the matched rule in our compliance corpus."
+          },
+          "category": {
+            "type": "string",
+            "description": "Rule category, e.g. monetization, community-guidelines, ad-policy, copyright, minors."
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Plain-language reasoning tying the video to the cited rule. Informational, not legal advice."
+          },
+          "citation": {
+            "$ref": "#/components/schemas/ComplianceCitation"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/ComplianceEvidence"
           }
         }
       },
