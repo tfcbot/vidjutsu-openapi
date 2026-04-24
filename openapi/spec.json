@@ -58,6 +58,9 @@
     },
     {
       "name": "Overlay"
+    },
+    {
+      "name": "Disclaimer"
     }
   ],
   "paths": {
@@ -653,6 +656,39 @@
         "tags": [
           "Credits"
         ]
+      }
+    },
+    "/v1/disclaimer": {
+      "post": {
+        "operationId": "createDisclaimer",
+        "summary": "Burn fine-print disclaimer onto video",
+        "description": "Burns a fine-print disclaimer centered at the bottom of a video using FFmpeg ASS subtitles. Use for FTC-style disclosures like results-not-typical, paid-endorsement, or AI-generated labels. Returns CDN URL of the result. 5 credits.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisclaimerResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Disclaimer"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisclaimerRequest"
+              }
+            }
+          }
+        }
       }
     },
     "/v1/extract": {
@@ -1892,7 +1928,8 @@
               "youtube",
               "tiktok",
               "instagram",
-              "facebook-ads"
+              "facebook-ads",
+              "ftc"
             ]
           },
           "policySnapshotDate": {
@@ -1979,7 +2016,8 @@
               "youtube",
               "tiktok",
               "instagram",
-              "facebook-ads"
+              "facebook-ads",
+              "ftc"
             ]
           },
           "kind": {
@@ -2020,7 +2058,8 @@
               "youtube",
               "tiktok",
               "instagram",
-              "facebook-ads"
+              "facebook-ads",
+              "ftc"
             ]
           },
           "format": {
@@ -2121,6 +2160,45 @@
             "type": "integer",
             "format": "int32",
             "description": "Check spec against rules"
+          }
+        }
+      },
+      "DisclaimerRequest": {
+        "type": "object",
+        "required": [
+          "videoUrl",
+          "text"
+        ],
+        "properties": {
+          "videoUrl": {
+            "type": "string",
+            "description": "URL of the source video"
+          },
+          "text": {
+            "type": "string",
+            "description": "Disclaimer text. Use \\\\n for line breaks. Kept fine-print style at the bottom of the frame."
+          },
+          "fontSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Font size in pixels. Defaults to 2.2% of video height (fine-print)."
+          }
+        }
+      },
+      "DisclaimerResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "resultUrl"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Disclaimer asset ID"
+          },
+          "resultUrl": {
+            "type": "string",
+            "description": "CDN URL of the disclaimed video"
           }
         }
       },
