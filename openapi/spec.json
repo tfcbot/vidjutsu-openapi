@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "VidJutsu API",
-    "version": "2026-04-02"
+    "version": "2026-05-22"
   },
   "tags": [
     {
