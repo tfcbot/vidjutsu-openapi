@@ -2,14 +2,11 @@
   "openapi": "3.0.0",
   "info": {
     "title": "VidJutsu API",
-    "version": "2026-04-02"
+    "version": "2026-05-22"
   },
   "tags": [
     {
       "name": "Assets"
-    },
-    {
-      "name": "Editor Projects"
     },
     {
       "name": "Credits"
@@ -64,6 +61,10 @@
     },
     {
       "name": "Disclaimer"
+    },
+    {
+      "name": "Scrape",
+      "description": "Proxy endpoints to Scrape Creators for TikTok, Instagram, X, YouTube, and ad libraries. Optional download_media param stages media through VidJutsu CDN."
     }
   ],
   "paths": {
@@ -953,155 +954,6 @@
         ]
       }
     },
-    "/v1/projects": {
-      "post": {
-        "operationId": "createEditorProject",
-        "summary": "Create editor project",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "The request has succeeded and a new resource has been created as a result.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditorProjectCreateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Editor Projects"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EditorProjectCreateRequest"
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "updateEditorProject",
-        "summary": "Update editor project",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditorProjectUpdateResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Editor Projects"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EditorProjectUpdateRequest"
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "operationId": "listOrGetEditorProjects",
-        "summary": "List projects or get by ID",
-        "description": "Returns a single project if ?id= is provided, or a list. Filter by ?status= or ?tag.key=value.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/EditorProject"
-                    },
-                    {
-                      "$ref": "#/components/schemas/EditorProjectListResponse"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Editor Projects"
-        ]
-      },
-      "delete": {
-        "operationId": "deleteEditorProject",
-        "summary": "Archive editor project (soft)",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditorProjectDeleteResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Editor Projects"
-        ]
-      }
-    },
     "/v1/references": {
       "post": {
         "operationId": "createReference",
@@ -1435,6 +1287,947 @@
             }
           }
         }
+      }
+    },
+    "/v1/scrape/tiktok/profile": {
+      "post": {
+        "operationId": "scrapeTikTokProfile",
+        "summary": "Scrape TikTok profile",
+        "description": "Fetch public TikTok profile data via Scrape Creators. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokProfileRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/tiktok/profile/videos": {
+      "post": {
+        "operationId": "scrapeTikTokProfileVideos",
+        "summary": "Scrape TikTok profile videos",
+        "description": "Paginated videos for a TikTok profile. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokProfileVideosRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/tiktok/video": {
+      "post": {
+        "operationId": "scrapeTikTokVideo",
+        "summary": "Scrape TikTok video",
+        "description": "Single TikTok video metadata + media URLs. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokVideoRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/tiktok/video/transcript": {
+      "post": {
+        "operationId": "scrapeTikTokVideoTranscript",
+        "summary": "Scrape TikTok video transcript",
+        "description": "Spoken transcript for a TikTok video. 1 op.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokVideoTranscriptRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/tiktok/video/comments": {
+      "post": {
+        "operationId": "scrapeTikTokVideoComments",
+        "summary": "Scrape TikTok video comments",
+        "description": "Comments on a TikTok video. 1 op.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokVideoCommentsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/tiktok/search/users": {
+      "post": {
+        "operationId": "scrapeTikTokSearchUsers",
+        "summary": "Scrape TikTok user search",
+        "description": "Search TikTok users by keyword. 1 op.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokSearchUsersRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/tiktok/trending": {
+      "post": {
+        "operationId": "scrapeTikTokTrending",
+        "summary": "Scrape TikTok trending feed",
+        "description": "Trending feed by region. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTikTokTrendingRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/instagram/profile": {
+      "post": {
+        "operationId": "scrapeInstagramProfile",
+        "summary": "Scrape Instagram profile",
+        "description": "Public Instagram profile + recent reels. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeInstagramProfileRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/instagram/user/posts": {
+      "post": {
+        "operationId": "scrapeInstagramUserPosts",
+        "summary": "Scrape Instagram user posts",
+        "description": "Paginated posts for an Instagram profile. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeInstagramUserPostsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/instagram/post": {
+      "post": {
+        "operationId": "scrapeInstagramPost",
+        "summary": "Scrape Instagram post or reel",
+        "description": "Single Instagram post or reel + media URLs. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeInstagramPostRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/instagram/post/comments": {
+      "post": {
+        "operationId": "scrapeInstagramPostComments",
+        "summary": "Scrape Instagram post comments",
+        "description": "Comments on an Instagram post or reel. 1 op.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeInstagramPostCommentsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/instagram/user/reels": {
+      "post": {
+        "operationId": "scrapeInstagramUserReels",
+        "summary": "Scrape Instagram user reels",
+        "description": "Paginated reels for an Instagram profile. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeInstagramUserReelsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/twitter/profile": {
+      "post": {
+        "operationId": "scrapeTwitterProfile",
+        "summary": "Scrape X profile",
+        "description": "Public X/Twitter profile + stats. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTwitterProfileRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/twitter/user-tweets": {
+      "post": {
+        "operationId": "scrapeTwitterUserTweets",
+        "summary": "Scrape X user tweets",
+        "description": "Recent tweets for a handle. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTwitterUserTweetsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/twitter/tweet": {
+      "post": {
+        "operationId": "scrapeTwitterTweet",
+        "summary": "Scrape X tweet",
+        "description": "Single tweet + media. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTwitterTweetRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/twitter/tweet/transcript": {
+      "post": {
+        "operationId": "scrapeTwitterTweetTranscript",
+        "summary": "Scrape X tweet video transcript",
+        "description": "Transcript of the video in a tweet (when present). 1 op.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeTwitterTweetTranscriptRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/youtube/channel": {
+      "post": {
+        "operationId": "scrapeYouTubeChannel",
+        "summary": "Scrape YouTube channel",
+        "description": "YouTube channel info + stats. Provide handle or channel_id. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeYouTubeChannelRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/youtube/channel-videos": {
+      "post": {
+        "operationId": "scrapeYouTubeChannelVideos",
+        "summary": "Scrape YouTube channel videos",
+        "description": "Paginated videos for a channel. Provide handle or channel_id. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeYouTubeChannelVideosRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/youtube/video": {
+      "post": {
+        "operationId": "scrapeYouTubeVideo",
+        "summary": "Scrape YouTube video",
+        "description": "Single YouTube video info, including transcript. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeYouTubeVideoRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/youtube/video/comments": {
+      "post": {
+        "operationId": "scrapeYouTubeVideoComments",
+        "summary": "Scrape YouTube video comments",
+        "description": "Comments on a YouTube video. 1 op.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeYouTubeVideoCommentsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/ads/meta": {
+      "post": {
+        "operationId": "scrapeMetaAds",
+        "summary": "Scrape Meta (Facebook) Ad Library",
+        "description": "Active Meta ads matching keyword. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeMetaAdsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/ads/google": {
+      "post": {
+        "operationId": "scrapeGoogleAds",
+        "summary": "Scrape Google Ad Transparency",
+        "description": "Ads for a company in the Google Ad Transparency Library. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeGoogleAdsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/ads/linkedin": {
+      "post": {
+        "operationId": "scrapeLinkedInAds",
+        "summary": "Scrape LinkedIn Ad Library",
+        "description": "Active LinkedIn ads matching keyword. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeLinkedInAdsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scrape/ads/reddit": {
+      "post": {
+        "operationId": "scrapeRedditAds",
+        "summary": "Scrape Reddit Ad Library",
+        "description": "Active Reddit ads matching keyword. 1 op + 1 op per staged media file when download_media is true.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scrape"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrapeRedditAdsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects": {
+      "post": {
+        "operationId": "createEditorProject",
+        "summary": "Create editor project",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditorProjectCreateResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Editor Projects"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditorProjectCreateRequest"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateEditorProject",
+        "summary": "Update editor project",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditorProjectUpdateResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Editor Projects"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditorProjectUpdateRequest"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listOrGetEditorProjects",
+        "summary": "List projects or get by ID",
+        "description": "Returns a single project if ?id= is provided, or a list. Filter by ?status= or ?tag.key=value.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/EditorProject"
+                    },
+                    {
+                      "$ref": "#/components/schemas/EditorProjectListResponse"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Editor Projects"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteEditorProject",
+        "summary": "Archive editor project (soft)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditorProjectDeleteResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Editor Projects"
+        ]
       }
     }
   },
@@ -2354,180 +3147,6 @@
           }
         }
       },
-      "EditorProject": {
-        "type": "object",
-        "required": [
-          "projectId",
-          "clientId",
-          "name",
-          "status",
-          "createdAt",
-          "updatedAt"
-        ],
-        "properties": {
-          "projectId": {
-            "type": "string"
-          },
-          "clientId": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "project": {
-            "type": "object",
-            "additionalProperties": {},
-            "description": "The serializable timeline document (Twick ProjectJSON: tracks, assets,\nmetadata, version). Stored opaquely; the editor owns its shape."
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": {}
-          },
-          "status": {
-            "$ref": "#/components/schemas/EditorProjectStatus"
-          },
-          "createdAt": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "updatedAt": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "EditorProjectCreateRequest": {
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "project": {
-            "type": "object",
-            "additionalProperties": {}
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": {}
-          }
-        }
-      },
-      "EditorProjectCreateResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "status"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "draft"
-            ]
-          }
-        }
-      },
-      "EditorProjectDeleteResponse": {
-        "type": "object",
-        "required": [
-          "id",
-          "status"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "archived"
-            ]
-          }
-        }
-      },
-      "EditorProjectListResponse": {
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EditorProject"
-            }
-          }
-        }
-      },
-      "EditorProjectStatus": {
-        "type": "string",
-        "enum": [
-          "draft",
-          "active",
-          "archived"
-        ]
-      },
-      "EditorProjectUpdateRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/EditorProjectStatus"
-          },
-          "project": {
-            "type": "object",
-            "additionalProperties": {}
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": {}
-          }
-        }
-      },
-      "EditorProjectUpdateResponse": {
-        "type": "object",
-        "required": [
-          "projectId",
-          "updated"
-        ],
-        "properties": {
-          "projectId": {
-            "type": "string"
-          },
-          "updated": {
-            "type": "boolean",
-            "enum": [
-              true
-            ]
-          }
-        }
-      },
       "ExtractAudio": {
         "type": "object",
         "required": [
@@ -3359,6 +3978,624 @@
             "type": "object",
             "additionalProperties": {},
             "description": "Structured JSON response from AI based on the prompt"
+          }
+        }
+      },
+      "ScrapeResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "description": "Pass-through response from Scrape Creators. Shape varies per endpoint. When download_media was true, all media URLs are replaced with VidJutsu CDN URLs."
+          }
+        }
+      },
+      "ScrapeTikTokProfileRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "TikTok username (without @)"
+          },
+          "trim": {
+            "type": "boolean",
+            "description": "Reduce response size by trimming large fields"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTikTokProfileVideosRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "TikTok username"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTikTokVideoRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "TikTok video URL"
+          },
+          "trim": {
+            "type": "boolean",
+            "description": "Reduce response size"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTikTokVideoTranscriptRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "TikTok video URL"
+          }
+        }
+      },
+      "ScrapeTikTokVideoCommentsRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "TikTok video URL"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          }
+        }
+      },
+      "ScrapeTikTokSearchUsersRequest": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          }
+        }
+      },
+      "ScrapeTikTokTrendingRequest": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Two-letter ISO country code (e.g. 'us')"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeInstagramProfileRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "Instagram username (without @)"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeInstagramUserPostsRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "Instagram username"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeInstagramPostRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Instagram post or reel URL"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeInstagramPostCommentsRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Instagram post URL"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          }
+        }
+      },
+      "ScrapeInstagramUserReelsRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "Instagram username"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTwitterProfileRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "X username (without @)"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTwitterUserTweetsRequest": {
+        "type": "object",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "X username"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "trim": {
+            "type": "boolean",
+            "description": "Reduce response size"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTwitterTweetRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Tweet URL or status URL"
+          },
+          "trim": {
+            "type": "boolean",
+            "description": "Reduce response size"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeTwitterTweetTranscriptRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Tweet URL"
+          }
+        }
+      },
+      "ScrapeYouTubeChannelRequest": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "Channel handle, e.g. @MrBeast"
+          },
+          "channel_id": {
+            "type": "string",
+            "description": "Channel ID, e.g. UC..."
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeYouTubeChannelVideosRequest": {
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "Channel handle"
+          },
+          "channel_id": {
+            "type": "string",
+            "description": "Channel ID"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeYouTubeVideoRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "YouTube video URL"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeYouTubeVideoCommentsRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "YouTube video URL"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          }
+        }
+      },
+      "ScrapeMetaAdsRequest": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword or page name"
+          },
+          "country": {
+            "type": "string",
+            "description": "Two-letter ISO country (default: US)"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeGoogleAdsRequest": {
+        "type": "object",
+        "required": [
+          "company"
+        ],
+        "properties": {
+          "company": {
+            "type": "string",
+            "description": "Company / advertiser name"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeLinkedInAdsRequest": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "ScrapeRedditAdsRequest": {
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword"
+          },
+          "download_media": {
+            "type": "boolean",
+            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
+            "default": false
+          }
+        }
+      },
+      "EditorProject": {
+        "type": "object",
+        "required": [
+          "projectId",
+          "clientId",
+          "name",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "project": {
+            "type": "object",
+            "additionalProperties": {},
+            "description": "The serializable timeline document (Twick ProjectJSON: tracks, assets,\nmetadata, version). Stored opaquely; the editor owns its shape."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "status": {
+            "$ref": "#/components/schemas/EditorProjectStatus"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "EditorProjectCreateRequest": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "project": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "EditorProjectCreateResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft"
+            ]
+          }
+        }
+      },
+      "EditorProjectDeleteResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "archived"
+            ]
+          }
+        }
+      },
+      "EditorProjectListResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EditorProject"
+            }
+          }
+        }
+      },
+      "EditorProjectStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "active",
+          "archived"
+        ]
+      },
+      "EditorProjectUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EditorProjectStatus"
+          },
+          "project": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "EditorProjectUpdateResponse": {
+        "type": "object",
+        "required": [
+          "projectId",
+          "updated"
+        ],
+        "properties": {
+          "projectId": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
           }
         }
       }
