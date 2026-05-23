@@ -9,9 +9,11 @@ import "./models/posts.tsp";
 import "./models/assets.tsp";
 import "./models/references.tsp";
 import "./models/editorProjects.tsp";
+import "./models/scrape.tsp";
 
 import "./operations/assets.tsp";
 import "./operations/editorProjects.tsp";
+import "./operations/scrape.tsp";
 import "./operations/auth.tsp";
 import "./operations/accounts.tsp";
 import "./operations/posts.tsp";
