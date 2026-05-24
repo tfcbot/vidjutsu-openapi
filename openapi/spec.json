@@ -67,6 +67,9 @@
     },
     {
       "name": "Disclaimer"
+    },
+    {
+      "name": "Agent"
     }
   ],
   "paths": {
@@ -410,6 +413,150 @@
         },
         "tags": [
           "Assets"
+        ]
+      }
+    },
+    "/v1/auth/agent": {
+      "post": {
+        "operationId": "signupAgent",
+        "summary": "Agent registration (auth.md)",
+        "description": "Register a machine client per the auth.md protocol. Three identity types are supported: `anonymous` (returns an API key immediately with pre-claim scopes), `verified_email` (kicks off OTP, returns a claim_token), and `identity_assertion` with assertion_type=`urn:ietf:params:oauth:token-type:id-jag` (verifies a signed ID-JAG and issues a key bound to the asserted identity).",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentSignupResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentSignupBody"
+              }
+            }
+          }
+        },
+        "security": [
+          {}
+        ]
+      }
+    },
+    "/v1/auth/agent/claim": {
+      "post": {
+        "operationId": "agentClaim",
+        "summary": "Initiate claim flow",
+        "description": "Initiate the email-verification claim flow for a previously-issued anonymous registration. Sends a 6-digit OTP to the supplied email and returns a claim_attempt_id.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentClaimResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentClaimRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {}
+        ]
+      }
+    },
+    "/v1/auth/agent/claim/complete": {
+      "post": {
+        "operationId": "agentClaimComplete",
+        "summary": "Complete claim flow",
+        "description": "Complete the email-verification claim flow by submitting the OTP. On success the registration's claimStatus flips to email_verified, post-claim scopes are unlocked, and an API key credential is returned.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentClaimCompleteResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentClaimCompleteRequest"
+              }
+            }
+          }
+        },
+        "security": [
+          {}
+        ]
+      }
+    },
+    "/v1/auth/agent/revoke": {
+      "post": {
+        "operationId": "agentRevoke",
+        "summary": "Revoke credential (logout+jwt)",
+        "description": "Accept a logout+jwt push from a trusted assertion provider to revoke a previously-issued credential. Body is a signed JWT with media type application/logout+jwt per RFC 8417.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRevokeResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Agent"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/logout+jwt": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "security": [
+          {}
         ]
       }
     },
@@ -2900,6 +3047,259 @@
             "enum": [
               true
             ]
+          }
+        }
+      },
+      "AgentClaimCompleteRequest": {
+        "type": "object",
+        "required": [
+          "claim_token",
+          "code"
+        ],
+        "properties": {
+          "claim_token": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "description": "6-digit verification code emailed to the principal."
+          }
+        }
+      },
+      "AgentClaimCompleteResponse": {
+        "type": "object",
+        "required": [
+          "credential",
+          "credential_type",
+          "scopes"
+        ],
+        "properties": {
+          "credential": {
+            "type": "string"
+          },
+          "credential_type": {
+            "type": "string",
+            "enum": [
+              "api_key"
+            ]
+          },
+          "credential_expires": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AgentClaimRequest": {
+        "type": "object",
+        "required": [
+          "claim_token",
+          "email"
+        ],
+        "properties": {
+          "claim_token": {
+            "type": "string",
+            "description": "Opaque claim_token returned from the initial /v1/auth/agent call."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address to send the verification code to."
+          }
+        }
+      },
+      "AgentClaimResponse": {
+        "type": "object",
+        "required": [
+          "registration_id",
+          "claim_attempt_id",
+          "status",
+          "expires_at"
+        ],
+        "properties": {
+          "registration_id": {
+            "type": "string"
+          },
+          "claim_attempt_id": {
+            "type": "string",
+            "description": "Identifier for this claim attempt."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "initiated"
+            ]
+          },
+          "expires_at": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix epoch ms when this claim attempt expires."
+          }
+        }
+      },
+      "AgentRevokeResponse": {
+        "type": "object",
+        "required": [
+          "revoked"
+        ],
+        "properties": {
+          "revoked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AgentSignupAnonymousBody": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "anonymous"
+            ]
+          },
+          "requested_credential_type": {
+            "type": "string",
+            "enum": [
+              "api_key"
+            ],
+            "description": "Requested credential type. Currently only api_key is supported."
+          }
+        }
+      },
+      "AgentSignupBody": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/AgentSignupAnonymousBody"
+          },
+          {
+            "$ref": "#/components/schemas/AgentSignupVerifiedEmailBody"
+          },
+          {
+            "$ref": "#/components/schemas/AgentSignupIdJagBody"
+          }
+        ]
+      },
+      "AgentSignupIdJagBody": {
+        "type": "object",
+        "required": [
+          "type",
+          "assertion_type",
+          "assertion"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "identity_assertion"
+            ]
+          },
+          "assertion_type": {
+            "type": "string",
+            "enum": [
+              "urn:ietf:params:oauth:token-type:id-jag"
+            ]
+          },
+          "assertion": {
+            "type": "string",
+            "description": "Signed identity-assertion JWT (ID-JAG) issued by a trusted assertion provider."
+          }
+        }
+      },
+      "AgentSignupResponse": {
+        "type": "object",
+        "required": [
+          "registration_id",
+          "registration_type"
+        ],
+        "properties": {
+          "registration_id": {
+            "type": "string",
+            "description": "Server-generated registration id (rgn_...)."
+          },
+          "registration_type": {
+            "type": "string",
+            "enum": [
+              "anonymous",
+              "email-verification",
+              "agentic"
+            ],
+            "description": "How the registration was initiated."
+          },
+          "credential_type": {
+            "type": "string",
+            "enum": [
+              "api_key"
+            ],
+            "description": "Credential type returned, when issued immediately. Omitted on flows that require claim_token first."
+          },
+          "credential": {
+            "type": "string",
+            "description": "Live credential (API key) issued by the server, when one is issued immediately."
+          },
+          "credential_expires": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix epoch ms when the credential expires, or null/undefined for non-expiring keys."
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Scopes the credential is authorized for at issue time."
+          },
+          "post_claim_scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Scopes that will be added after the claim flow completes."
+          },
+          "claim_url": {
+            "type": "string",
+            "description": "URL the agent should direct the principal to in order to complete claim/verification."
+          },
+          "claim_token": {
+            "type": "string",
+            "description": "Opaque token used to complete the claim flow."
+          },
+          "claim_token_expires": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix epoch ms when the claim_token expires."
+          }
+        }
+      },
+      "AgentSignupVerifiedEmailBody": {
+        "type": "object",
+        "required": [
+          "type",
+          "assertion_type",
+          "assertion"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "identity_assertion"
+            ]
+          },
+          "assertion_type": {
+            "type": "string",
+            "enum": [
+              "verified_email"
+            ]
+          },
+          "assertion": {
+            "type": "string",
+            "description": "Email address the agent asserts on behalf of the principal."
           }
         }
       },
