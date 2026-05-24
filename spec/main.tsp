@@ -26,6 +26,7 @@ import "./operations/check.tsp";
 import "./operations/compliance.tsp";
 import "./operations/overlay.tsp";
 import "./operations/disclaimer.tsp";
+import "./operations/agent.tsp";
 
 using Http;
 using OpenAPI;
