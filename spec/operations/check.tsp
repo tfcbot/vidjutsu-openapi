@@ -37,7 +37,7 @@ model CheckRulesUpdateRequest {
 interface Check {
   @post @operationId("checkSpec") @summary("Check spec")
   @doc("Validate a VidLang spec against enabled rules. Rules are off by default — caller must enable at least one. 5 credits.")
-  check(@body body: CheckRequest): CheckResponse;
+  check(@body body: CheckRequest): CheckResponse | PaymentRequiredResponse;
 }
 
 @route("/v1/check/rules")

@@ -21,5 +21,5 @@ model WatchResponse {
 interface Watch {
   @post @operationId("watchMedia") @summary("Watch media")
   @doc("AI watches a video or image and answers your freeform prompt. Returns structured JSON. 10 credits.")
-  watch(@body body: WatchRequest): WatchResponse;
+  watch(@body body: WatchRequest): WatchResponse | PaymentRequiredResponse;
 }

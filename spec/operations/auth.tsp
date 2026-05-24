@@ -169,6 +169,7 @@ model SubscriptionCreateResponse {
 @tag("Subscriptions")
 interface Subscriptions {
   @post @operationId("createSubscription") @summary("Create subscription")
+  @doc("DEPRECATED (PR 2 of credit-billing pivot, 2026-05-23): subscription gating has been removed from the API. Anyone can sign up for free via POST /v1/signup and pay per call via credits — a 403 subscription_required response will no longer be returned by any endpoint. This endpoint is retained as a Stripe Checkout entry point and will be reworked in PR 3 to mint credit packs instead of subscriptions. Do not build new integrations against the existing subscription semantics.")
   create(@body body: SubscriptionCreateRequest): SubscriptionCreateResponse;
 }
 

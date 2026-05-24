@@ -29,5 +29,5 @@ model TranscribeResponse {
 interface Transcribe {
   @post @operationId("transcribeMedia") @summary("Transcribe media")
   @doc("Speech-to-text with word-level timing. 10 credits.")
-  transcribe(@body body: TranscribeRequest): TranscribeResponse;
+  transcribe(@body body: TranscribeRequest): TranscribeResponse | PaymentRequiredResponse;
 }

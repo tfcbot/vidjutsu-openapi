@@ -22,7 +22,7 @@ interface Upload {
   upload(@header contentType: string, @body body: bytes): {
     @statusCode _: 201;
     @body body: UploadResponse;
-  };
+  } | PaymentRequiredResponse;
 }
 
 @route("/v1/upload/url")
@@ -32,5 +32,5 @@ interface UploadUrl {
   uploadFromUrl(@body body: UploadUrlRequest): {
     @statusCode _: 201;
     @body body: UploadResponse;
-  };
+  } | PaymentRequiredResponse;
 }
