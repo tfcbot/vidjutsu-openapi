@@ -103,10 +103,10 @@ interface Compliance {
   @route("/video")
   @post @operationId("checkComplianceVideo") @summary("Check video compliance")
   @doc("Scan a video against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 20/day rate limit.")
-  video(@body body: ComplianceVideoRequest): ComplianceCheckResponse;
+  video(@body body: ComplianceVideoRequest): ComplianceCheckResponse | PaymentRequiredResponse;
 
   @route("/prompt")
   @post @operationId("checkCompliancePrompt") @summary("Check prompt compliance")
   @doc("Scan a caption, ad copy, draft script, or other text against a platform's current TOS / Community Guidelines. Returns a risk score with cited policy clauses. Informational only, not legal advice. 100/day rate limit.")
-  prompt(@body body: CompliancePromptRequest): ComplianceCheckResponse;
+  prompt(@body body: CompliancePromptRequest): ComplianceCheckResponse | PaymentRequiredResponse;
 }

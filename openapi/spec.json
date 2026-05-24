@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "VidJutsu API",
-    "version": "2026-05-23"
+    "version": "2026-05-24"
   },
   "tags": [
     {
@@ -518,6 +518,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -605,6 +615,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -635,6 +655,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComplianceCheckResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -703,6 +733,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -733,6 +773,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExtractResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -788,6 +838,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OverlayResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1293,6 +1353,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1323,6 +1393,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1359,6 +1439,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1389,6 +1479,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1425,6 +1525,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1455,6 +1565,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1491,6 +1611,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1521,6 +1651,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1557,6 +1697,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1587,6 +1737,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1623,6 +1783,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1653,6 +1823,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1689,6 +1869,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1719,6 +1909,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1755,6 +1955,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1785,6 +1995,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1821,6 +2041,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1851,6 +2081,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1887,6 +2127,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1917,6 +2167,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -1953,6 +2213,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1983,6 +2253,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -2019,6 +2299,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -2049,6 +2339,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ScrapeResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -2099,6 +2399,7 @@
       "post": {
         "operationId": "createSubscription",
         "summary": "Create subscription",
+        "description": "DEPRECATED (PR 2 of credit-billing pivot, 2026-05-23): subscription gating has been removed from the API. Anyone can sign up for free via POST /v1/signup and pay per call via credits — a 403 subscription_required response will no longer be returned by any endpoint. This endpoint is retained as a Stripe Checkout entry point and will be reworked in PR 3 to mint credit packs instead of subscriptions. Do not build new integrations against the existing subscription semantics.",
         "parameters": [],
         "responses": {
           "200": {
@@ -2143,6 +2444,16 @@
                 }
               }
             }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -2172,6 +2483,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UploadResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -2205,6 +2526,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UploadResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -2261,6 +2592,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WatchResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — insufficient credits to perform this call. Response body follows RFC 7807 (application/problem+json) and includes the credit cost, current balance, and a top-up URL. PR 3 of the credit-billing pivot will pair this with WWW-Authenticate: Payment headers to enable agent-driven (MPP / x402) inline payment resolution.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredProblem"
                 }
               }
             }
@@ -3609,6 +3950,55 @@
             "description": "CDN URL of the overlaid video"
           }
         }
+      },
+      "PaymentRequiredProblem": {
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail",
+          "required",
+          "balance",
+          "topupUrl"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Problem type URI.",
+            "default": "https://paymentauth.org/problems/payment-required"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short human-readable summary.",
+            "default": "Payment Required"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "HTTP status code (always 402 here).",
+            "default": 402
+          },
+          "detail": {
+            "type": "string",
+            "description": "Human-readable explanation of the failure."
+          },
+          "required": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Credits required to perform this call."
+          },
+          "balance": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Caller's current credit balance."
+          },
+          "topupUrl": {
+            "type": "string",
+            "description": "URL the caller (or a payment-capable agent) should visit to top up credits."
+          }
+        },
+        "description": "RFC 7807 Problem Details body returned with HTTP 402 when the caller's credit balance is insufficient for the requested operation. Content-Type: application/problem+json."
       },
       "Post": {
         "type": "object",

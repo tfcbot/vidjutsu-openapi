@@ -45,5 +45,5 @@ model ExtractResponse {
 interface Extract {
   @post @operationId("extractMedia") @summary("Extract from media")
   @doc("Pull frames, audio, and metadata from a video via server-side processing. 5 credits.")
-  extract(@body body: ExtractRequest): ExtractResponse;
+  extract(@body body: ExtractRequest): ExtractResponse | PaymentRequiredResponse;
 }
