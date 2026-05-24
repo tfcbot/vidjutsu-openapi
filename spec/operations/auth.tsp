@@ -80,6 +80,49 @@ interface Balance {
   get(): BalanceResponse;
 }
 
+// --- Credit top-ups (PR 3 of credit-billing pivot) ---
+
+model TopupRequest {
+  @doc("Credit pack identifier. starter=$19/1000, pro=$99/7000, max=$497/50000.")
+  packId: "starter" | "pro" | "max";
+}
+
+model TopupResponse {
+  @doc("Stripe Checkout URL — direct the user (or open programmatically) to complete payment. Credits are granted via webhook after successful payment.")
+  checkoutUrl: string;
+  packId: "starter" | "pro" | "max";
+  @doc("Credits that will be added to the balance once payment completes.")
+  credits: int32;
+}
+
+model AutoRefillRequest {
+  @doc("Monthly dollar amount to auto-charge for credit top-ups. Maps to the closest credit pack rate.")
+  monthlyAmount: int32;
+}
+
+model AutoRefillResponse {
+  @doc("Stripe Subscription id (sub_...). Recurring credit top-ups will fire monthly from webhook.")
+  subscriptionId: string;
+  @doc("Stripe Checkout URL to confirm the recurring subscription.")
+  checkoutUrl: string;
+}
+
+@route("/v1/topup")
+@tag("Credits")
+interface Topup {
+  @post @operationId("createTopup") @summary("Create one-time credit pack checkout")
+  @doc("Creates a Stripe Checkout Session for a one-time credit pack. The returned checkoutUrl completes payment via Stripe-hosted checkout; credits are granted via webhook on payment success.")
+  create(@body body: TopupRequest): TopupResponse;
+}
+
+@route("/v1/topup/auto")
+@tag("Credits")
+interface TopupAuto {
+  @post @operationId("createAutoRefill") @summary("Create auto-refill subscription")
+  @doc("Creates a recurring Stripe Subscription that auto-tops-up credits each month at the requested dollar amount. The returned checkoutUrl confirms the recurring subscription; credits are granted via webhook on each billing cycle.")
+  create(@body body: AutoRefillRequest): AutoRefillResponse;
+}
+
 @route("/v1/api_keys/rotate")
 @tag("API Keys")
 interface ApiKeyRotate {
