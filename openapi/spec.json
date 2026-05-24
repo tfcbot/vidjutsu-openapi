@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "VidJutsu API",
-    "version": "2026-04-02"
+    "version": "2026-05-23"
   },
   "tags": [
     {
@@ -477,6 +477,29 @@
             }
           }
         }
+      }
+    },
+    "/v1/balance": {
+      "get": {
+        "operationId": "getBalance",
+        "summary": "Get credit balance",
+        "description": "Returns the authenticated client's current credit balance and the last 10 ledger entries.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BalanceResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credits"
+        ]
       }
     },
     "/v1/check": {
@@ -2046,6 +2069,32 @@
         }
       }
     },
+    "/v1/signup": {
+      "post": {
+        "operationId": "signup",
+        "summary": "Anonymous signup",
+        "description": "Creates a new anonymous machine client and returns a fresh API key + clientId. No authentication required. Returned client starts with 0 credits and claimStatus=anonymous; credits can be granted by an admin or topped up later.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Credits"
+        ],
+        "security": [
+          {}
+        ]
+      }
+    },
     "/v1/subscribe": {
       "post": {
         "operationId": "createSubscription",
@@ -2720,6 +2769,27 @@
             "enum": [
               true
             ]
+          }
+        }
+      },
+      "BalanceResponse": {
+        "type": "object",
+        "required": [
+          "balance",
+          "ledger"
+        ],
+        "properties": {
+          "balance": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Current credit balance for the authenticated client."
+          },
+          "ledger": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LedgerEntry"
+            },
+            "description": "Most recent ledger entries (newest first), up to 10."
           }
         }
       },
@@ -3447,6 +3517,43 @@
           "auth": {},
           "credits": {
             "$ref": "#/components/schemas/CreditCosts"
+          }
+        }
+      },
+      "LedgerEntry": {
+        "type": "object",
+        "required": [
+          "delta",
+          "reason",
+          "createdAt"
+        ],
+        "properties": {
+          "delta": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Signed credit delta: positive for grants/topups/refunds, negative for charges."
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "grant",
+              "topup",
+              "charge",
+              "refund"
+            ]
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Operation that produced this entry (for charge rows)."
+          },
+          "note": {
+            "type": "string",
+            "description": "Free-form admin note (for grant rows)."
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix epoch milliseconds."
           }
         }
       },
@@ -4307,6 +4414,23 @@
             "type": "boolean",
             "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
             "default": false
+          }
+        }
+      },
+      "SignupResponse": {
+        "type": "object",
+        "required": [
+          "apiKey",
+          "clientId"
+        ],
+        "properties": {
+          "apiKey": {
+            "type": "string",
+            "description": "Fresh API key, format vj_anon_<hex>. Send as Authorization: Bearer <apiKey>."
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Client identifier, format mc_anon_<hex>."
           }
         }
       },

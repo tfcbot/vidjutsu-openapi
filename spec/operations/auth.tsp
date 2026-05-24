@@ -35,6 +35,51 @@ interface Credits {
   status(@query session: string): ApiKeyStatusResponse;
 }
 
+// --- Free signup + balance (PR 1 of credit-billing pivot) ---
+
+model SignupResponse {
+  @doc("Fresh API key, format vj_anon_<hex>. Send as Authorization: Bearer <apiKey>.")
+  apiKey: string;
+  @doc("Client identifier, format mc_anon_<hex>.")
+  clientId: string;
+}
+
+model LedgerEntry {
+  @doc("Signed credit delta: positive for grants/topups/refunds, negative for charges.")
+  delta: int32;
+  reason: "grant" | "topup" | "charge" | "refund";
+  @doc("Operation that produced this entry (for charge rows).")
+  operationId?: string;
+  @doc("Free-form admin note (for grant rows).")
+  note?: string;
+  @doc("Unix epoch milliseconds.")
+  createdAt: int64;
+}
+
+model BalanceResponse {
+  @doc("Current credit balance for the authenticated client.")
+  balance: int32;
+  @doc("Most recent ledger entries (newest first), up to 10.")
+  ledger: LedgerEntry[];
+}
+
+@route("/v1/signup")
+@tag("Credits")
+interface Signup {
+  @post @operationId("signup") @summary("Anonymous signup")
+  @doc("Creates a new anonymous machine client and returns a fresh API key + clientId. No authentication required. Returned client starts with 0 credits and claimStatus=anonymous; credits can be granted by an admin or topped up later.")
+  @useAuth(NoAuth)
+  signup(): SignupResponse;
+}
+
+@route("/v1/balance")
+@tag("Credits")
+interface Balance {
+  @get @operationId("getBalance") @summary("Get credit balance")
+  @doc("Returns the authenticated client's current credit balance and the last 10 ledger entries.")
+  get(): BalanceResponse;
+}
+
 @route("/v1/api_keys/rotate")
 @tag("API Keys")
 interface ApiKeyRotate {
