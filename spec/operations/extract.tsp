@@ -44,6 +44,6 @@ model ExtractResponse {
 @tag("Extract")
 interface Extract {
   @post @operationId("extractMedia") @summary("Extract from media")
-  @doc("Pull frames, audio, and metadata from a video via server-side processing. 5 credits.")
-  extract(@body body: ExtractRequest): ExtractResponse | PaymentRequiredResponse;
+  @doc("Pull frames, audio, and metadata from a video via server-side processing. Daily limit: 100/day (resets 00:00 UTC).")
+  extract(@body body: ExtractRequest): ExtractResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }

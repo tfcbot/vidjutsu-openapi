@@ -23,7 +23,6 @@ model ReferenceCreateRequest {
 model ReferenceCreateResponse {
   id: string;
   status: "active";
-  creditsCharged: 0;
 }
 
 model ReferenceUpdateRequest {

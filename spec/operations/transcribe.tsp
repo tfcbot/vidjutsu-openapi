@@ -28,6 +28,6 @@ model TranscribeResponse {
 @tag("Transcribe")
 interface Transcribe {
   @post @operationId("transcribeMedia") @summary("Transcribe media")
-  @doc("Speech-to-text with word-level timing. 10 credits.")
-  transcribe(@body body: TranscribeRequest): TranscribeResponse | PaymentRequiredResponse;
+  @doc("Speech-to-text with word-level timing. Daily limit: 30/day (resets 00:00 UTC).")
+  transcribe(@body body: TranscribeRequest): TranscribeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }

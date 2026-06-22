@@ -36,18 +36,18 @@ model CheckRulesUpdateRequest {
 @tag("Check")
 interface Check {
   @post @operationId("checkSpec") @summary("Check spec")
-  @doc("Validate a VidLang spec against enabled rules. Rules are off by default — caller must enable at least one. 5 credits.")
-  check(@body body: CheckRequest): CheckResponse | PaymentRequiredResponse;
+  @doc("Validate a VidLang spec against enabled rules. Rules are off by default — caller must enable at least one. Daily limit: 100/day (resets 00:00 UTC).")
+  check(@body body: CheckRequest): CheckResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
 
 @route("/v1/check/rules")
 @tag("Check")
 interface CheckRules {
   @get @operationId("getCheckRules") @summary("Get check rules")
-  @doc("Load per-client custom rules. 0 credits.")
+  @doc("Load per-client custom rules. Unmetered — no daily limit.")
   getRules(): CheckRulesResponse;
 
   @put @operationId("updateCheckRules") @summary("Update check rules")
-  @doc("Save per-client custom rules. 0 credits.")
+  @doc("Save per-client custom rules. Unmetered — no daily limit.")
   updateRules(@body body: CheckRulesUpdateRequest): CheckRulesResponse;
 }

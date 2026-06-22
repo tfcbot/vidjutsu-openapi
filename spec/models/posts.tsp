@@ -31,7 +31,6 @@ model PostCreateRequest {
 model PostCreateResponse {
   id: string;
   status: "draft";
-  creditsCharged: 0;
 }
 
 model PostUpdateRequest {

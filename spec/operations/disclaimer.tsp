@@ -23,6 +23,6 @@ model DisclaimerResponse {
 @tag("Disclaimer")
 interface Disclaimer {
   @post @operationId("createDisclaimer") @summary("Burn fine-print disclaimer onto video")
-  @doc("Burns a fine-print disclaimer centered at the bottom of a video using FFmpeg ASS subtitles. Use for FTC-style disclosures like results-not-typical, paid-endorsement, or AI-generated labels. Returns CDN URL of the result. 5 credits.")
-  create(@body body: DisclaimerRequest): DisclaimerResponse | PaymentRequiredResponse;
+  @doc("Burns a fine-print disclaimer centered at the bottom of a video using FFmpeg ASS subtitles. Use for FTC-style disclosures like results-not-typical, paid-endorsement, or AI-generated labels. Returns CDN URL of the result. Daily limit: 50/day (resets 00:00 UTC).")
+  create(@body body: DisclaimerRequest): DisclaimerResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }

@@ -35,7 +35,6 @@ model AccountCreateRequest {
 model AccountCreateResponse {
   id: string;
   status: "draft";
-  creditsCharged: 0;
 }
 
 model AccountUpdateRequest {
