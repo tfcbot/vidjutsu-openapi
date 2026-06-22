@@ -27,6 +27,6 @@ model OverlayResponse {
 @tag("Overlay")
 interface Overlay {
   @post @operationId("createOverlay") @summary("Burn text overlay onto video")
-  @doc("Burns text overlay onto a video using FFmpeg ASS subtitles. Supports TikTok-safe zones, configurable font size, stroke thickness, and top/center/bottom positioning. Returns CDN URL of the result. 5 credits.")
-  create(@body body: OverlayRequest): OverlayResponse | PaymentRequiredResponse;
+  @doc("Burns text overlay onto a video using FFmpeg ASS subtitles. Supports TikTok-safe zones, configurable font size, stroke thickness, and top/center/bottom positioning. Returns CDN URL of the result. Daily limit: 50/day (resets 00:00 UTC).")
+  create(@body body: OverlayRequest): OverlayResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
