@@ -6,7 +6,7 @@ namespace VidJutsu;
 model OverlayRequest {
   /** URL of the source video */
   videoUrl: string;
-  /** Overlay text. Use \\n for line breaks. */
+  /** Overlay text. Lines auto-balance to even widths: spaces and single newlines flow together, so you don't need to hand-break lines. Use a blank line (two newlines) to force a hard break, e.g. for bullet lists. */
   text: string;
   /** Vertical text placement */
   position?: "top" | "center" | "bottom";
