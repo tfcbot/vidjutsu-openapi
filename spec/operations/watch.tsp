@@ -8,6 +8,7 @@ model WatchRequest {
   mediaUrl: string;
 
   @doc("Freeform prompt — tell AI what to look for")
+  @minLength(1)
   prompt: string;
 }
 

@@ -86,7 +86,7 @@ model Clip {
 }
 
 model JobOutputResource {
-  kind: "video" | "clip" | "post";
+  kind: "video" | "clip" | "post" | "image" | "character" | "clone_check";
   id: string;
 }
 
@@ -108,8 +108,6 @@ model DistributionJob {
 
 model AddVideoRequest {
   source: VideoSource;
-  @doc("Customer attests that they own or are authorized to transform and distribute this source.")
-  rightsAttested: boolean;
   dryRun?: boolean;
 }
 
@@ -127,8 +125,6 @@ model GenerateClipsRequest {
   @maxValue(180)
   maxDurationSeconds?: int32;
   intent?: string;
-  @doc("Required when source is supplied.")
-  rightsAttested?: boolean;
   dryRun?: boolean;
 }
 
