@@ -5,6 +5,9 @@ namespace VidJutsu;
 enum MediaJobStatus {
   queued,
   running,
+  waitingProvider: "waiting_provider",
+  retrying,
+  rejected,
   completed,
   failed,
   cancelled,
@@ -20,6 +23,18 @@ enum MediaJobOperation {
   createCharacter,
   cloneStartingImage,
   cloneVideo,
+  agentTask,
+}
+
+model AgentTaskResult {
+  kind: "agent_task";
+  outcome: "completed" | "rejected";
+  finalAssetId?: string;
+  @format("uri")
+  finalUrl?: string;
+  summary?: string;
+  reasons?: string[];
+  costMicros?: int64;
 }
 
 union VideoCloneModel {
@@ -82,6 +97,7 @@ union MediaJobResult {
   character: CharacterResult,
   startingImage: StartingImageResult,
   cloneVideo: CloneVideoResult,
+  agentTask: AgentTaskResult,
 }
 
 model MediaJobError {

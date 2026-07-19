@@ -13,6 +13,7 @@ import "./models/scrape.tsp";
 import "./models/downloads.tsp";
 import "./models/distribution.tsp";
 import "./models/cloning.tsp";
+import "./models/agentTasks.tsp";
 
 import "./operations/assets.tsp";
 import "./operations/editorProjects.tsp";
@@ -33,6 +34,7 @@ import "./operations/disclaimer.tsp";
 import "./operations/agent.tsp";
 import "./operations/distribution.tsp";
 import "./operations/cloning.tsp";
+import "./operations/agentTasks.tsp";
 
 using Http;
 using OpenAPI;
@@ -42,7 +44,7 @@ using Rest;
   title: "VidJutsu API",
 })
 @info({
-  version: "2026-07-18-1",
+  version: "2026-07-18-2",
 })
 @server("https://api.vidjutsu.ai", "Production")
 @useAuth(BearerAuth)
