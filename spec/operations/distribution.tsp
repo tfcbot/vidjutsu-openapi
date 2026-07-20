@@ -6,7 +6,7 @@ namespace VidJutsu;
 @route("/v1/videos/add")
 @tag("Videos")
 interface VideoIngestion {
-  @post @operationId("addVideo") @summary("Add a video from an uploaded asset, direct MP4 URL, or YouTube URL")
+  @post @operationId("addVideo") @summary("Add a video from an uploaded asset or direct MP4 URL")
   @doc("Creates or reuses a normalized Vidjutsu video. Provider ingest, downloading, indexing, and storage are implementation details.")
   add(
     @header("Idempotency-Key") idempotencyKey?: string,
@@ -60,4 +60,3 @@ interface DistributionClips {
   @get @operationId("listOrGetDistributionClips") @summary("List generated clips or get one by ID")
   list(@query id?: string, @query videoId?: string): ClipResponse | ClipListResponse | SubscriptionRequiredResponse;
 }
-

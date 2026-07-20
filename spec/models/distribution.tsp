@@ -48,22 +48,15 @@ model HttpVideoSource {
   url: string;
 }
 
-model YouTubeVideoSource {
-  kind: "youtube";
-  @format("uri")
-  url: string;
-}
-
 @discriminator("kind")
 union VideoSource {
   asset: AssetVideoSource,
   http: HttpVideoSource,
-  youtube: YouTubeVideoSource,
 }
 
 model Video {
   videoId: string;
-  sourceKind: "asset" | "http" | "youtube";
+  sourceKind: "asset" | "http";
   status: VideoStatus;
   title?: string;
   durationSeconds?: float64;
