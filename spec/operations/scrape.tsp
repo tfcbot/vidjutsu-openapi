@@ -6,22 +6,6 @@ namespace VidJutsu;
 @route("/v1/scrape")
 @tag("Scrape")
 interface Scrape {
-  @doc("Ads for a company in the Google Ad Transparency Library. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/ads/google") @operationId("scrapeGoogleAds") @summary("Scrape Google Ad Transparency")
-  scrapeGoogleAds(@body body: ScrapeGoogleAdsRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Active LinkedIn ads matching keyword. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/ads/linkedin") @operationId("scrapeLinkedInAds") @summary("Scrape LinkedIn Ad Library")
-  scrapeLinkedInAds(@body body: ScrapeLinkedInAdsRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Active Meta ads matching keyword. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/ads/meta") @operationId("scrapeMetaAds") @summary("Scrape Meta (Facebook) Ad Library")
-  scrapeMetaAds(@body body: ScrapeMetaAdsRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Active Reddit ads matching keyword. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/ads/reddit") @operationId("scrapeRedditAds") @summary("Scrape Reddit Ad Library")
-  scrapeRedditAds(@body body: ScrapeRedditAdsRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
   @doc("Single Instagram post or reel + media URLs. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
   @post @route("/instagram/post") @operationId("scrapeInstagramPost") @summary("Scrape Instagram post or reel")
   scrapeInstagramPost(@body body: ScrapeInstagramPostRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
@@ -69,37 +53,5 @@ interface Scrape {
   @doc("Spoken transcript for a TikTok video. 1 op.")
   @post @route("/tiktok/video/transcript") @operationId("scrapeTikTokVideoTranscript") @summary("Scrape TikTok video transcript")
   scrapeTikTokVideoTranscript(@body body: ScrapeTikTokVideoTranscriptRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Public X/Twitter profile + stats. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/twitter/profile") @operationId("scrapeTwitterProfile") @summary("Scrape X profile")
-  scrapeTwitterProfile(@body body: ScrapeTwitterProfileRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Single tweet + media. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/twitter/tweet") @operationId("scrapeTwitterTweet") @summary("Scrape X tweet")
-  scrapeTwitterTweet(@body body: ScrapeTwitterTweetRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Transcript of the video in a tweet (when present). 1 op.")
-  @post @route("/twitter/tweet/transcript") @operationId("scrapeTwitterTweetTranscript") @summary("Scrape X tweet video transcript")
-  scrapeTwitterTweetTranscript(@body body: ScrapeTwitterTweetTranscriptRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Recent tweets for a handle. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/twitter/user-tweets") @operationId("scrapeTwitterUserTweets") @summary("Scrape X user tweets")
-  scrapeTwitterUserTweets(@body body: ScrapeTwitterUserTweetsRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("YouTube channel info + stats. Provide handle or channel_id. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/youtube/channel") @operationId("scrapeYouTubeChannel") @summary("Scrape YouTube channel")
-  scrapeYouTubeChannel(@body body: ScrapeYouTubeChannelRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Paginated videos for a channel. Provide handle or channel_id. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/youtube/channel-videos") @operationId("scrapeYouTubeChannelVideos") @summary("Scrape YouTube channel videos")
-  scrapeYouTubeChannelVideos(@body body: ScrapeYouTubeChannelVideosRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Single YouTube video info, including transcript. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.")
-  @post @route("/youtube/video") @operationId("scrapeYouTubeVideo") @summary("Scrape YouTube video")
-  scrapeYouTubeVideo(@body body: ScrapeYouTubeVideoRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
-
-  @doc("Comments on a YouTube video. 1 op.")
-  @post @route("/youtube/video/comments") @operationId("scrapeYouTubeVideoComments") @summary("Scrape YouTube video comments")
-  scrapeYouTubeVideoComments(@body body: ScrapeYouTubeVideoCommentsRequest): ScrapeResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 
 }
