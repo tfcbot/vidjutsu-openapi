@@ -2041,7 +2041,7 @@
       "post": {
         "operationId": "scrapeInstagramPost",
         "summary": "Scrape Instagram post or reel",
-        "description": "Single Instagram post or reel + media URLs. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Single Instagram post or reel + media URLs. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2165,7 +2165,7 @@
       "post": {
         "operationId": "scrapeInstagramProfile",
         "summary": "Scrape Instagram profile",
-        "description": "Public Instagram profile + recent reels. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Public Instagram profile + recent reels. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2227,7 +2227,7 @@
       "post": {
         "operationId": "scrapeInstagramUserPosts",
         "summary": "Scrape Instagram user posts",
-        "description": "Paginated posts for an Instagram profile. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Paginated posts for an Instagram profile. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2289,7 +2289,7 @@
       "post": {
         "operationId": "scrapeInstagramUserReels",
         "summary": "Scrape Instagram user reels",
-        "description": "Paginated reels for an Instagram profile. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Paginated reels for an Instagram profile. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2351,7 +2351,7 @@
       "post": {
         "operationId": "scrapeTikTokProfile",
         "summary": "Scrape TikTok profile",
-        "description": "Fetch public TikTok profile data via Scrape Creators. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Fetch public TikTok profile data via Scrape Creators. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2413,7 +2413,7 @@
       "post": {
         "operationId": "scrapeTikTokProfileVideos",
         "summary": "Scrape TikTok profile videos",
-        "description": "Paginated videos for a TikTok profile. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Paginated videos for a TikTok profile. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2537,7 +2537,7 @@
       "post": {
         "operationId": "scrapeTikTokTrending",
         "summary": "Scrape TikTok trending feed",
-        "description": "Trending feed by region. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Trending feed by region. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -2599,7 +2599,7 @@
       "post": {
         "operationId": "scrapeTikTokVideo",
         "summary": "Scrape TikTok video",
-        "description": "Single TikTok video metadata + media URLs. Counts as 1 request against the shared scrape group (500/day); staging media with download_media does not consume extra quota.",
+        "description": "Single TikTok video metadata + media URLs. Counts as 1 request against the shared scrape group (500/day).",
         "parameters": [],
         "responses": {
           "200": {
@@ -5604,11 +5604,6 @@
           "url": {
             "type": "string",
             "description": "Instagram post or reel URL"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5621,11 +5616,6 @@
           "handle": {
             "type": "string",
             "description": "Instagram username (without @)"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5642,11 +5632,6 @@
           "cursor": {
             "type": "string",
             "description": "Pagination cursor"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5663,11 +5648,6 @@
           "cursor": {
             "type": "string",
             "description": "Pagination cursor"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5678,7 +5658,7 @@
         ],
         "properties": {
           "data": {
-            "description": "Pass-through response from Scrape Creators. Shape varies per endpoint. When download_media was true, all media URLs are replaced with VidJutsu CDN URLs."
+            "description": "Pass-through response from Scrape Creators. Shape varies per endpoint. Media URLs are the raw provider source URLs; scrape never stages media. To stage a specific video's file, call the single-video download endpoint."
           }
         }
       },
@@ -5695,11 +5675,6 @@
           "trim": {
             "type": "boolean",
             "description": "Reduce response size by trimming large fields"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5716,11 +5691,6 @@
           "cursor": {
             "type": "string",
             "description": "Pagination cursor"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5746,11 +5716,6 @@
           "country": {
             "type": "string",
             "description": "Two-letter ISO country code (e.g. 'us')"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },
@@ -5783,11 +5748,6 @@
           "trim": {
             "type": "boolean",
             "description": "Reduce response size"
-          },
-          "download_media": {
-            "type": "boolean",
-            "description": "When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).",
-            "default": false
           }
         }
       },

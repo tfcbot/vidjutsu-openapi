@@ -1,7 +1,7 @@
 namespace VidJutsu;
 
 model ScrapeResponse {
-  @doc("Pass-through response from Scrape Creators. Shape varies per endpoint. When download_media was true, all media URLs are replaced with VidJutsu CDN URLs.")
+  @doc("Pass-through response from Scrape Creators. Shape varies per endpoint. Media URLs are the raw provider source URLs; scrape never stages media. To stage a specific video's file, call the single-video download endpoint.")
   data: unknown;
 }
 
@@ -10,8 +10,6 @@ model ScrapeTikTokProfileRequest {
   handle: string;
   @doc("Reduce response size by trimming large fields")
   trim?: boolean;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeTikTokProfileVideosRequest {
@@ -19,8 +17,6 @@ model ScrapeTikTokProfileVideosRequest {
   handle: string;
   @doc("Pagination cursor")
   cursor?: string;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeTikTokVideoRequest {
@@ -28,8 +24,6 @@ model ScrapeTikTokVideoRequest {
   url: string;
   @doc("Reduce response size")
   trim?: boolean;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeTikTokVideoTranscriptRequest {
@@ -54,15 +48,11 @@ model ScrapeTikTokSearchUsersRequest {
 model ScrapeTikTokTrendingRequest {
   @doc("Two-letter ISO country code (e.g. 'us')")
   country?: string;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeInstagramProfileRequest {
   @doc("Instagram username (without @)")
   handle: string;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeInstagramUserPostsRequest {
@@ -70,15 +60,11 @@ model ScrapeInstagramUserPostsRequest {
   handle: string;
   @doc("Pagination cursor")
   cursor?: string;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeInstagramPostRequest {
   @doc("Instagram post or reel URL")
   url: string;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
 
 model ScrapeInstagramPostCommentsRequest {
@@ -93,6 +79,4 @@ model ScrapeInstagramUserReelsRequest {
   handle: string;
   @doc("Pagination cursor")
   cursor?: string;
-  @doc("When true, media URLs in the response are staged through VidJutsu CDN and the response contains ONLY VidJutsu URLs. Defaults to false (raw source URLs returned as-is).")
-  download_media?: boolean = false;
 }
