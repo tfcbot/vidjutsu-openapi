@@ -13,9 +13,9 @@ enum MediaJobStatus {
   cancelled,
 }
 
-enum MediaJobOperation {
-  addVideo,
-  schedulePost,
+model JobOutputResource {
+  kind: "video" | "post" | "image" | "character" | "clone_check";
+  id: string;
 }
 
 model MediaJobError {
@@ -27,7 +27,6 @@ model MediaJobError {
 model MediaJob {
   jobId: string;
   parentJobId?: string;
-  operation: MediaJobOperation;
   status: MediaJobStatus;
   outputs?: JobOutputResource[];
   error?: MediaJobError;
