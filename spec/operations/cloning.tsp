@@ -14,7 +14,7 @@ interface MediaJobs {
 @tag("Cloning")
 interface CloneChecks {
   @post @operationId("cloneCheck") @summary("Evaluate whether a source video can be cloned reliably")
-  @doc("Runs a synchronous, deterministic cloneability analysis of the source video and returns a verdict, a 0-100 score, and the evidence behind them. The source URL must be public HTTPS and at most ~2 minutes long. Shares the daily clone admission limit.")
+  @doc("Runs a synchronous, deterministic cloneability analysis of a staged source video and returns a verdict (strong, possible, or weak), a 0-100 score, and the evidence behind them, so the agent can branch on the result, for example stopping on a weak verdict. The videoUrl must be public HTTPS and staged first: provider CDNs cannot fetch TikTok or Instagram links directly, so download the source with /v1/videos/download/tiktok or /v1/videos/download/instagram before checking it. The source video must be at most ~2 minutes long. Shares the daily clone admission limit.")
   create(@body body: CloneCheckRequest): CloneCheckResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
 
@@ -22,7 +22,7 @@ interface CloneChecks {
 @tag("Characters")
 interface Characters {
   @post @operationId("createCharacter") @summary("Create a reusable generated character image")
-  @doc("Generates a character identity image from a text prompt, optionally guided by one HTTPS reference image. Returns a CDN-hosted image URL. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
+  @doc("Generates a photoreal character identity image from a text prompt, optionally guided by one HTTPS reference image. Returns a CDN-hosted image URL to feed into the starting-image step. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
   create(@body body: CreateCharacterRequest): GeneratedImageResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
 
@@ -38,7 +38,7 @@ interface CloneStartingImages {
 @tag("Cloning")
 interface CloneVideos {
   @post @operationId("cloneVideo") @summary("Clone source motion with Kling motion control or Seedance")
-  @doc("Submits an asynchronous motion-clone generation. The default kling model uses Kling motion control to puppet the starting-image identity with the source video's motion, keeping the original sound; model=\"seedance\" is the alternate model, rendering 9:16 at 480p via video-edit. All URLs must be public HTTPS. Returns 202 with a task id to poll via GET /v1/clones/video/{id}.")
+  @doc("Submits an asynchronous motion-clone generation. The default kling model uses Kling motion control to puppet the starting-image identity with the source video's motion, keeping the original sound; model=\"seedance\" is the alternate model, rendering 9:16 at 480p via video-edit. All URLs must be public HTTPS. Source clips are capped at 15 seconds; a longer sourceVideoUrl is rejected with a 422 and an error of \"video_too_long\". Returns 202 with a task id to poll via GET /v1/clones/video/{id}.")
   create(@body body: CloneVideoRequest): CloneVideoAcceptedResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 
   @get @operationId("getCloneVideo") @summary("Poll a clone video task")
