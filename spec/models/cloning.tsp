@@ -15,9 +15,6 @@ enum MediaJobStatus {
 
 enum MediaJobOperation {
   addVideo,
-  generateClips,
-  addCaptions,
-  addBroll,
   schedulePost,
 }
 
