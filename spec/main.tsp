@@ -11,7 +11,6 @@ import "./models/references.tsp";
 import "./models/editorProjects.tsp";
 import "./models/scrape.tsp";
 import "./models/downloads.tsp";
-import "./models/distribution.tsp";
 import "./models/cloning.tsp";
 
 import "./operations/assets.tsp";
@@ -31,7 +30,6 @@ import "./operations/compliance.tsp";
 import "./operations/overlay.tsp";
 import "./operations/disclaimer.tsp";
 import "./operations/agent.tsp";
-import "./operations/distribution.tsp";
 import "./operations/cloning.tsp";
 
 using Http;
