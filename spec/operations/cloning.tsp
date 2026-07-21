@@ -30,15 +30,15 @@ interface Characters {
 @tag("Cloning")
 interface CloneStartingImages {
   @post @operationId("cloneStartingImage") @summary("Create a character-swapped starting frame")
-  @doc("Composes a clean starting frame for a clone by applying the prompt to the character image, optionally grounded in the source video's first frame. All URLs must be public HTTPS. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
+  @doc("Composes a clean starting frame for a clone by applying the prompt to the character image, optionally grounded in the source video's first frame. The returned image is guaranteed to be a clean cinematic frame with no text overlays, captions, subtitles, watermarks, or platform UI, regardless of what is present in the source video or requested prompt. All URLs must be public HTTPS. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
   create(@body body: CloneStartingImageRequest): GeneratedImageResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
 
 @route("/v1/clones/video")
 @tag("Cloning")
 interface CloneVideos {
-  @post @operationId("cloneVideo") @summary("Clone source motion with Seedance or Kling motion control")
-  @doc("Submits an asynchronous motion-clone generation. The default seedance model renders 9:16 at 480p, preserving the source's timing and framing while swapping in the starting-image identity; model=\"kling\" uses Kling motion control and keeps the original sound. All URLs must be public HTTPS. Returns 202 with a task id to poll via GET /v1/clones/video/{id}.")
+  @post @operationId("cloneVideo") @summary("Clone source motion with Kling motion control or Seedance")
+  @doc("Submits an asynchronous motion-clone generation. The default kling model uses Kling motion control to puppet the starting-image identity with the source video's motion, keeping the original sound; model=\"seedance\" is the alternate model, rendering 9:16 at 480p via video-edit. All URLs must be public HTTPS. Returns 202 with a task id to poll via GET /v1/clones/video/{id}.")
   create(@body body: CloneVideoRequest): CloneVideoAcceptedResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 
   @get @operationId("getCloneVideo") @summary("Poll a clone video task")
