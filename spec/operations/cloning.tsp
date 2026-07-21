@@ -21,16 +21,24 @@ interface CloneChecks {
 @route("/v1/characters")
 @tag("Characters")
 interface Characters {
-  @post @operationId("createCharacter") @summary("Create a reusable generated character image")
-  @doc("Generates a photoreal character identity image from a text prompt, optionally guided by one HTTPS reference image. Returns a CDN-hosted image URL to feed into the starting-image step. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
-  create(@body body: CreateCharacterRequest): GeneratedImageResponse | SubscriptionRequiredResponse | RateLimitedResponse;
+  @post @operationId("createCharacter") @summary("Create a reusable, persisted character image")
+  @doc("Generates a photoreal character identity image from a text prompt, optionally guided by one HTTPS reference image, and persists it durably under an id. Returns the character id plus a CDN-hosted image URL; reuse the id later via cloneStartingImage's characterId or fetch it again with GET /v1/characters/{id}. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
+  create(@body body: CreateCharacterRequest): CreateCharacterResponse | SubscriptionRequiredResponse | RateLimitedResponse;
+
+  @get @operationId("listCharacters") @summary("List your persisted characters")
+  @doc("Returns all characters previously created by the caller, most recent first. Status/list reads are not billed.")
+  list(): ListCharactersResponse | SubscriptionRequiredResponse;
+
+  @get @operationId("getCharacter") @summary("Fetch a persisted character by id")
+  @doc("Returns a single character owned by the caller. Unknown ids and other tenants' ids return 404. Status reads are not billed.")
+  get(@path id: string): Character | SubscriptionRequiredResponse;
 }
 
 @route("/v1/clones/starting-image")
 @tag("Cloning")
 interface CloneStartingImages {
   @post @operationId("cloneStartingImage") @summary("Create a character-swapped starting frame")
-  @doc("Composes a clean starting frame for a clone by applying the prompt to the character image, optionally grounded in the source video's first frame. The returned image is guaranteed to be a clean cinematic frame with no text overlays, captions, subtitles, watermarks, or platform UI, regardless of what is present in the source video or requested prompt. All URLs must be public HTTPS. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
+  @doc("Composes a clean starting frame for a clone by applying the prompt to the character image, optionally grounded in the source video's first frame. Supply exactly one of characterImageUrl (a public HTTPS image) or characterId (a previously created character's id, from createCharacter or GET /v1/characters) to identify the character; supplying both or neither is a validation error. The returned image is guaranteed to be a clean cinematic frame with no text overlays, captions, subtitles, watermarks, or platform UI, regardless of what is present in the source video or requested prompt. All other URLs must be public HTTPS. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
   create(@body body: CloneStartingImageRequest): GeneratedImageResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
 

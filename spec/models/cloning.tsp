@@ -93,10 +93,45 @@ model GeneratedImageResponse {
   `model`: string;
 }
 
-model CloneStartingImageRequest {
-  @doc("Public HTTPS URL of the character identity image. http:// URLs are rejected.")
+model CreateCharacterResponse {
+  @doc("Persisted character id (char_...). Reuse it later via cloneStartingImage's characterId or GET /v1/characters/{id}.")
+  id: string;
+
+  @doc("HTTPS CDN URL of the generated character image.")
   @format("uri")
-  characterImageUrl: string;
+  imageUrl: string;
+
+  @doc("Provider model id that produced the image.")
+  `model`: string;
+}
+
+model Character {
+  @doc("Persisted character id (char_...).")
+  id: string;
+
+  @doc("HTTPS CDN URL of the character image.")
+  @format("uri")
+  imageUrl: string;
+
+  @doc("Provider model id that produced the image.")
+  `model`: string;
+
+  @doc("Creation timestamp, epoch milliseconds.")
+  createdAt: int64;
+}
+
+model ListCharactersResponse {
+  @doc("Characters owned by the caller, most recent first.")
+  characters: Character[];
+}
+
+model CloneStartingImageRequest {
+  @doc("Public HTTPS URL of the character identity image. http:// URLs are rejected. Exactly one of characterImageUrl or characterId must be supplied.")
+  @format("uri")
+  characterImageUrl?: string;
+
+  @doc("Id of a previously created character (from createCharacter or GET /v1/characters) whose stored image should be used. Exactly one of characterImageUrl or characterId must be supplied.")
+  characterId?: string;
 
   @doc("Instructions for composing the starting frame (pose, framing, scene).")
   @minLength(1)
