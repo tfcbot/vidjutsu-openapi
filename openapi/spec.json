@@ -76,9 +76,6 @@
       "name": "Agent"
     },
     {
-      "name": "Clips"
-    },
-    {
       "name": "Jobs"
     },
     {
@@ -894,162 +891,6 @@
         }
       }
     },
-    "/v1/clips/broll": {
-      "post": {
-        "operationId": "addClipBroll",
-        "summary": "Create a B-roll-treated clip artifact",
-        "description": "Creates a new immutable clip whose parent is the input clip. Assets, edit planning, and render providers remain internal.",
-        "parameters": [
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionJob"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "HTTP 403 Forbidden — a valid API key with no active subscription called a gated endpoint. Body is the standard ApiError with error=\"subscription_required\".",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Clips"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddBrollRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/clips/captions": {
-      "post": {
-        "operationId": "addClipCaptions",
-        "summary": "Create a captioned clip artifact",
-        "description": "Creates a new immutable clip whose parent is the input clip.",
-        "parameters": [
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionJob"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "HTTP 403 Forbidden — a valid API key with no active subscription called a gated endpoint. Body is the standard ApiError with error=\"subscription_required\".",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Clips"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddCaptionsRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/clips/generate": {
-      "post": {
-        "operationId": "generateClips",
-        "summary": "Generate a bounded batch of 9:16 clips from a video source or video ID",
-        "description": "One semantic job may resolve the source, transcribe it, find moments, and reframe clips. Returns a durable job; provider and model choices remain internal.",
-        "parameters": [
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DistributionJob"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "HTTP 403 Forbidden — a valid API key with no active subscription called a gated endpoint. Body is the standard ApiError with error=\"subscription_required\".",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Clips"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateClipsRequest"
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/clones/check": {
       "post": {
         "operationId": "cloneCheck",
@@ -1495,64 +1336,6 @@
             }
           }
         }
-      }
-    },
-    "/v1/distribution/clips": {
-      "get": {
-        "operationId": "listOrGetDistributionClips",
-        "summary": "List generated clips or get one by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          },
-          {
-            "name": "videoId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "explode": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ClipResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ClipListResponse"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "HTTP 403 Forbidden — a valid API key with no active subscription called a gated endpoint. Body is the standard ApiError with error=\"subscription_required\".",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Clips"
-        ]
       }
     },
     "/v1/distribution/jobs": {
@@ -3685,54 +3468,6 @@
           }
         }
       },
-      "AddBrollRequest": {
-        "type": "object",
-        "required": [
-          "clipId",
-          "mode"
-        ],
-        "properties": {
-          "clipId": {
-            "type": "string"
-          },
-          "mode": {
-            "$ref": "#/components/schemas/BrollMode"
-          },
-          "assetIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Optional approved asset IDs. Required when mode is supplied."
-          },
-          "intent": {
-            "type": "string"
-          },
-          "dryRun": {
-            "type": "boolean"
-          }
-        }
-      },
-      "AddCaptionsRequest": {
-        "type": "object",
-        "required": [
-          "clipId"
-        ],
-        "properties": {
-          "clipId": {
-            "type": "string"
-          },
-          "preset": {
-            "type": "string"
-          },
-          "language": {
-            "type": "string"
-          },
-          "dryRun": {
-            "type": "boolean"
-          }
-        }
-      },
       "AddVideoRequest": {
         "type": "object",
         "required": [
@@ -4285,14 +4020,6 @@
         },
         "description": ""
       },
-      "BrollMode": {
-        "type": "string",
-        "enum": [
-          "auto",
-          "supplied",
-          "none"
-        ]
-      },
       "Character": {
         "type": "object",
         "required": [
@@ -4412,97 +4139,6 @@
             }
           }
         }
-      },
-      "Clip": {
-        "type": "object",
-        "required": [
-          "clipId",
-          "rootVideoId",
-          "transformKind",
-          "status",
-          "aspectRatio",
-          "createdAt"
-        ],
-        "properties": {
-          "clipId": {
-            "type": "string"
-          },
-          "rootVideoId": {
-            "type": "string"
-          },
-          "parentClipId": {
-            "type": "string"
-          },
-          "transformKind": {
-            "$ref": "#/components/schemas/ClipTransformKind"
-          },
-          "status": {
-            "$ref": "#/components/schemas/ClipStatus"
-          },
-          "aspectRatio": {
-            "type": "string",
-            "enum": [
-              "9:16"
-            ]
-          },
-          "durationSeconds": {
-            "type": "number",
-            "format": "double"
-          },
-          "assetId": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "createdAt": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "ClipListResponse": {
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Clip"
-            }
-          }
-        }
-      },
-      "ClipResponse": {
-        "type": "object",
-        "required": [
-          "data"
-        ],
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/Clip"
-          }
-        }
-      },
-      "ClipStatus": {
-        "type": "string",
-        "enum": [
-          "processing",
-          "ready",
-          "failed"
-        ]
-      },
-      "ClipTransformKind": {
-        "type": "string",
-        "enum": [
-          "generated",
-          "timestamps",
-          "captions",
-          "broll"
-        ]
       },
       "CloneCheckRequest": {
         "type": "object",
@@ -5067,9 +4703,6 @@
         "type": "string",
         "enum": [
           "addVideo",
-          "generateClips",
-          "addCaptions",
-          "addBroll",
           "schedulePost"
         ]
       },
@@ -5356,55 +4989,6 @@
           }
         }
       },
-      "GenerateClipsRequest": {
-        "type": "object",
-        "required": [
-          "aspectRatio",
-          "count"
-        ],
-        "properties": {
-          "source": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/VideoSource"
-              }
-            ],
-            "description": "Provide source or videoId. Exactly one is required."
-          },
-          "videoId": {
-            "type": "string",
-            "description": "Existing normalized Vidjutsu video. Provide this or source, not both."
-          },
-          "aspectRatio": {
-            "type": "string",
-            "enum": [
-              "9:16"
-            ]
-          },
-          "count": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 1,
-            "maximum": 20
-          },
-          "minDurationSeconds": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 5
-          },
-          "maxDurationSeconds": {
-            "type": "integer",
-            "format": "int32",
-            "maximum": 180
-          },
-          "intent": {
-            "type": "string"
-          },
-          "dryRun": {
-            "type": "boolean"
-          }
-        }
-      },
       "GeneratedImageResponse": {
         "type": "object",
         "required": [
@@ -5486,7 +5070,6 @@
             "type": "string",
             "enum": [
               "video",
-              "clip",
               "post",
               "image",
               "character",
@@ -5576,9 +5159,6 @@
         "type": "string",
         "enum": [
           "addVideo",
-          "generateClips",
-          "addCaptions",
-          "addBroll",
           "schedulePost"
         ]
       },
