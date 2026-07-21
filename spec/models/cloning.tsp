@@ -116,8 +116,8 @@ model CloneVideoRequest {
   @format("uri")
   sourceVideoUrl: string;
 
-  @doc("Generation model. Defaults to \"seedance\" (9:16 at 480p, video-edit); \"kling\" uses Kling motion control and keeps the original sound.")
-  `model`?: CloneVideoModel = CloneVideoModel.seedance;
+  @doc("Generation model. Defaults to \"kling\": Kling motion control puppets the character image with the source video's motion and keeps the original sound. \"seedance\" is the alternate model (9:16 at 480p, video-edit).")
+  `model`?: CloneVideoModel = CloneVideoModel.kling;
 
   @doc("Optional override for the default identity-swap prompt (seedance only).")
   prompt?: string;
