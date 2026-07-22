@@ -44,7 +44,7 @@ using Rest;
 })
 @server("https://api.vidjutsu.ai", "Production")
 @useAuth(BearerAuth)
-@doc("VidJutsu is a video API built for agents to operate directly. Your agent can clone viral trending skits now: stage a trending clip with /v1/videos/download/tiktok or /v1/videos/download/instagram, check it for cloneability, generate a character and a clean starting frame, then render the clone. The pipeline runs end to end in about 5 minutes, measured. Kling motion control is the default video model; Seedance is the alternate. Clone video output is 480p 9:16.")
+@doc("VidJutsu is a video API built for agents to operate directly. Your agent can clone viral trending skits now: stage a trending clip with /v1/videos/download/tiktok or /v1/videos/download/instagram, check it for cloneability, generate a character and a clean starting frame, then render the clone. Kling 3.0 Motion Control is the supported clone-video model and preserves the source soundtrack.")
 @tagMetadata(
   "Cloning",
   #{
