@@ -31,7 +31,7 @@ interface Characters {
 @tag("Cloning")
 interface CloneStartingImages {
   @post @operationId("cloneStartingImage") @summary("Create a character-swapped starting frame")
-  @doc("Composes a clean starting frame for a clone by applying the prompt to the character image, optionally grounded in the source video's first frame. Supply exactly one of characterImageUrl (a public HTTPS image) or characterId (a previously created character's id, from createCharacter or GET /v1/characters) to identify the character; supplying both or neither is a validation error. The returned image is guaranteed to be a clean cinematic frame with no text overlays, captions, subtitles, watermarks, or platform UI, regardless of what is present in the source video or requested prompt. All other URLs must be public HTTPS. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
+  @doc("Edits the supplied firstFrame image with google/gemini-3.1-flash-image through the caller's tenant-scoped Vercel AI Gateway key. The first frame supplies pose, framing, lighting, background, and composition; the required characterId supplies the replacement identity. The returned image is generated with a server-enforced instruction to remove text overlays, captions, subtitles, watermarks, and platform UI. firstFrame must be public HTTPS. Synchronous; typically completes within a minute. Shares the daily clone admission limit.")
   create(@body body: CloneStartingImageRequest): GeneratedImageResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 }
 
