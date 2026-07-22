@@ -38,8 +38,8 @@ interface CloneStartingImages {
 @route("/v1/clones/video")
 @tag("Cloning")
 interface CloneVideos {
-  @post @operationId("cloneVideo") @summary("Clone source motion with Kling motion control or Seedance")
-  @doc("Submits an asynchronous motion-clone generation. The default kling model uses Kling motion control to puppet the starting-image identity with the source video's motion, keeping the original sound; model=\"seedance\" is the alternate model, rendering 9:16 at 480p via video-edit. All URLs must be public HTTPS. Source clips are capped at 15 seconds; a longer sourceVideoUrl is rejected with a 422 and an error of \"video_too_long\". Returns 202 with a task id to poll via GET /v1/clones/video/{id}.")
+  @post @operationId("cloneVideo") @summary("Clone source motion with Kling 3.0 Motion Control")
+  @doc("Submits an asynchronous Kling 3.0 Motion Control generation. The starting-image identity is puppeted with the source video's motion while keeping the original sound. All URLs must be public HTTPS. Source clips are capped at 15 seconds; a longer sourceVideoUrl is rejected with a 422 and an error of \"video_too_long\". Returns 202 with a task id to read via GET /v1/clones/video/{id}.")
   create(@body body: CloneVideoRequest): CloneVideoAcceptedResponse | SubscriptionRequiredResponse | RateLimitedResponse;
 
   @get @operationId("getCloneVideo") @summary("Poll a clone video task")

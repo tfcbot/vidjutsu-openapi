@@ -3,7 +3,6 @@ using Http;
 namespace VidJutsu;
 
 union CloneVideoModel {
-  seedance: "seedance",
   kling: "kling",
 }
 
@@ -115,10 +114,10 @@ model CloneVideoRequest {
   @format("uri")
   sourceVideoUrl: string;
 
-  @doc("Generation model. Defaults to \"kling\": Kling motion control puppets the character image with the source video's motion and keeps the original sound. \"seedance\" is the alternate model (9:16 at 480p, video-edit).")
+  @doc("Generation model. Only \"kling\" is supported: Kling 3.0 Motion Control puppets the character image with the source video's motion and keeps the original sound.")
   `model`?: CloneVideoModel = CloneVideoModel.kling;
 
-  @doc("Optional override for the default identity-swap prompt (seedance only).")
+  @doc("Optional override for the default motion-control prompt.")
   prompt?: string;
 }
 
