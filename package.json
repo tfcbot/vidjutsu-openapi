@@ -1,6 +1,6 @@
 {
   "name": "vidjutsu-openapi",
-  "version": "2026.4.2",
+  "version": "2026.7.22",
   "private": false,
   "description": "OpenAPI specification for the VidJutsu API",
   "scripts": {

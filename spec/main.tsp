@@ -40,7 +40,7 @@ using Rest;
   title: "VidJutsu API",
 })
 @info({
-  version: "2026-07-20",
+  version: "2026-07-22",
 })
 @server("https://api.vidjutsu.ai", "Production")
 @useAuth(BearerAuth)
