@@ -100,7 +100,7 @@ model CloneStartingImageRequest {
   @minLength(1)
   prompt: string;
 
-  @doc("Optional public HTTPS URL of the source video whose opening frame should ground the composition.")
+  @doc("Optional public HTTPS URL of the source video used as textual composition context. The endpoint does not extract or attach a source frame.")
   @format("uri")
   sourceVideoUrl?: string;
 }

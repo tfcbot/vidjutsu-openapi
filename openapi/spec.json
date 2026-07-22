@@ -4054,7 +4054,7 @@
           "sourceVideoUrl": {
             "type": "string",
             "format": "uri",
-            "description": "Optional public HTTPS URL of the source video whose opening frame should ground the composition."
+            "description": "Optional public HTTPS URL of the source video used as textual composition context. The endpoint does not extract or attach a source frame."
           }
         }
       },
