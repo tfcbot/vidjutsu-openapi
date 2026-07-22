@@ -89,20 +89,17 @@ model ListCharactersResponse {
 }
 
 model CloneStartingImageRequest {
-  @doc("Public HTTPS URL of the character identity image. http:// URLs are rejected. Exactly one of characterImageUrl or characterId must be supplied.")
+  @doc("Public HTTPS URL of the source video's extracted first-frame image. This image supplies the pose, framing, lighting, background, and composition to preserve. http:// URLs are rejected.")
   @format("uri")
-  characterImageUrl?: string;
+  firstFrame: string;
 
-  @doc("Id of a previously created character (from createCharacter or GET /v1/characters) whose stored image should be used. Exactly one of characterImageUrl or characterId must be supplied.")
-  characterId?: string;
+  @doc("Id of a previously created character (from createCharacter or GET /v1/characters) whose stored image supplies the replacement identity.")
+  characterId: string;
 
   @doc("Instructions for composing the starting frame (pose, framing, scene).")
   @minLength(1)
   prompt: string;
 
-  @doc("Optional public HTTPS URL of the source video used as textual composition context. The endpoint does not extract or attach a source frame.")
-  @format("uri")
-  sourceVideoUrl?: string;
 }
 
 model CloneVideoRequest {
