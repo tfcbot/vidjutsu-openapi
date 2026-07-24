@@ -7,8 +7,15 @@ namespace VidJutsu;
 @tag("Cloning")
 interface CloneChecks {
   @post @operationId("cloneCheck") @summary("Evaluate whether a source video can be cloned reliably")
-  @doc("Runs a synchronous, deterministic cloneability analysis of a staged source video and returns a verdict (strong, possible, or weak), a 0-100 score, and the evidence behind them, so the agent can branch on the result, for example stopping on a weak verdict. The videoUrl must be public HTTPS and staged first: provider CDNs cannot fetch TikTok or Instagram links directly, so download the source with /v1/videos/download/tiktok or /v1/videos/download/instagram before checking it. The source video must be at most ~2 minutes long. Shares the daily clone admission limit.")
-  create(@body body: CloneCheckRequest): CloneCheckResponse | SubscriptionRequiredResponse | RateLimitedResponse;
+  @doc("Synchronously analyzes a directly fetchable public HTTPS MP4 and returns a verdict, score, evidence, and model. TikTok and Instagram post pages must first be staged with their video download endpoint, then the exact returned CDN URL passed as videoUrl. The source must be an MP4 no larger than 50 MB and no longer than 15 seconds. Captions and overlays that can be removed and reapplied do not independently reduce cloneability. Shares the daily clone admission limit.")
+  create(@body body: CloneCheckRequest):
+    | CloneCheckResponse
+    | CloneCheckBadRequestResponse
+    | CloneCheckTooLargeResponse
+    | CloneCheckUnsupportedMediaResponse
+    | CloneCheckUnprocessableResponse
+    | SubscriptionRequiredResponse
+    | RateLimitedResponse;
 }
 
 @route("/v1/characters")

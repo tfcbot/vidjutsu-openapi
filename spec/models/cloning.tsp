@@ -13,19 +13,16 @@ enum CloneCheckVerdict {
 }
 
 model CloneCheckRequest {
-  @doc("Public HTTPS URL of the source video to evaluate. http:// URLs are rejected.")
+  @doc("Public HTTPS URL of a directly fetchable MP4. Social post and webpage URLs must be staged first.")
   @format("uri")
   videoUrl: string;
-
-  @doc("Optional freeform context about the intended clone (product, character, constraints) to sharpen the analysis.")
-  context?: string;
 }
 
 model CloneCheckResponse {
   @doc("Overall cloneability verdict: \"strong\" clones reliably, \"possible\" may need retries or manual QA, \"weak\" is unlikely to clone well.")
   verdict: CloneCheckVerdict;
 
-  @doc("Cloneability score from 0 (unusable) to 100 (ideal source).")
+  @doc("Server-calculated cloneability score from 0 (unusable) to 100 (ideal source), derived from a fixed rubric.")
   @minValue(0)
   @maxValue(100)
   score: int32;
@@ -33,8 +30,32 @@ model CloneCheckResponse {
   @doc("Concrete observations from the video that support the verdict.")
   evidence: string[];
 
-  @doc("Provider model id that produced the analysis.")
+  @doc("Provider model id that produced the structured observations used by the server rubric.")
   `model`: string;
+}
+
+@doc("The URL is invalid or points to a TikTok/Instagram post page that must be staged first.")
+model CloneCheckBadRequestResponse {
+  @statusCode _: 400;
+  @body body: ApiError;
+}
+
+@doc("The fetched media exceeds the 50 MB clone-check limit.")
+model CloneCheckTooLargeResponse {
+  @statusCode _: 413;
+  @body body: ApiError;
+}
+
+@doc("The URL did not resolve to an MP4 container.")
+model CloneCheckUnsupportedMediaResponse {
+  @statusCode _: 415;
+  @body body: ApiError;
+}
+
+@doc("The MP4 exceeds the 15-second clone-source limit.")
+model CloneCheckUnprocessableResponse {
+  @statusCode _: 422;
+  @body body: ApiError;
 }
 
 model CreateCharacterRequest {
